@@ -1,0 +1,138 @@
+{
+  "app": {
+    "name": "Outpost Academy",
+    "tagline": "Toda escolha tem um custo. Descubra por quê."
+  },
+  "common": {
+    "next": "Próximo",
+    "back": "Voltar",
+    "endDay": "Encerrar o dia",
+    "tryAgain": "Jogar de novo com um novo plano",
+    "nextLevel": "Próximo nível",
+    "source": "Fonte",
+    "forGrownUps": "Para adultos",
+    "solo": "Sozinho",
+    "together": "Jogar juntos",
+    "pilot": "Piloto",
+    "copilot": "Copiloto",
+    "askTogether": "Conversem juntos",
+    "whyMatters": "Por que isso importa",
+    "realScience": "Ciência de verdade",
+    "tryNext": "Tente isto agora",
+    "whyChain": "Por que isso aconteceu?",
+    "blocksLeft": "Blocos de energia restantes",
+    "because": "porque"
+  },
+  "settings": {
+    "title": "Perfil e configurações",
+    "nickname": "Apelido",
+    "language": "Idioma",
+    "sound": "Som",
+    "readAloud": "Ler em voz alta",
+    "reduceMotion": "Menos movimento",
+    "bigText": "Texto maior",
+    "easyFont": "Fonte fácil de ler",
+    "saved": "Salvo apenas neste dispositivo"
+  },
+  "resources": {
+    "air": "Ar",
+    "power": "Energia",
+    "shield": "Escudo",
+    "food": "Comida",
+    "water": "Água"
+  },
+  "levels": {
+    "first_day": {
+      "name": "Primeiro dia",
+      "intro": "Bem-vindo à sua base lunar! Quatro astronautas contam com você.",
+      "goal": "Mantenha a máquina de ar funcionando e o escudo forte.",
+      "tip": "Todo dia você recebe blocos de energia. Divida-os com sabedoria!",
+      "fact": "Um astronauta precisa de um pouco menos de 1 quilo de oxigênio por dia.",
+      "factSource": "bvad",
+      "askKid": "Qual sistema você protegeria primeiro, e por quê?",
+      "learn": "Tudo em uma base funciona com energia limitada, então cada escolha tem um custo."
+    },
+    "long_night": {
+      "name": "Noite longa",
+      "intro": "A noite está chegando. O Sol vai se esconder por dias.",
+      "goal": "Guarde energia na bateria antes que as luzes se apaguem.",
+      "tip": "Sem luz solar não há blocos novos. Planeje com antecedência!",
+      "fact": "Na Lua, uma noite dura cerca de duas semanas terrestres.",
+      "factSource": "moon-facts",
+      "askKid": "Quantos dias de energia devemos guardar?",
+      "learn": "Planejar com antecedência: o que você guarda hoje evita problemas amanhã."
+    },
+    "storm_watch": {
+      "name": "Fique de olho na tempestade",
+      "intro": "Uma tempestade de partículas espaciais pode chegar à base.",
+      "goal": "Fortaleça o escudo antes que a tempestade chegue.",
+      "tip": "A previsão mostra quando a tempestade vai chegar. Use-a!",
+      "fact": "Cientistas da NASA acompanham as explosões solares todos os dias.",
+      "factSource": "donki",
+      "askKid": "Por que é inteligente se preparar antes da tempestade?",
+      "learn": "Previsões reais do clima espacial dão tempo às tripulações para se preparar. A proteção custa energia que você não pode usar em outro lugar."
+    },
+    "green_thumb": {
+      "name": "Mão verde",
+      "intro": "Comida fresca precisa de uma horta. Hora de construir uma estufa!",
+      "goal": "Cultive comida sem deixar a base no escuro.",
+      "tip": "As lâmpadas das plantas usam energia. Equilibre luz, ar e escudo.",
+      "fact": "Astronautas da estação espacial já cultivaram e comeram alface.",
+      "factSource": "veggie",
+      "askKid": "O que você abandonaria por uma colheita maior?",
+      "learn": "Cultivar comida exige energia e água, então todos os sistemas disputam os mesmos recursos."
+    },
+    "thirsty_base": {
+      "name": "Base com sede",
+      "intro": "A água é a linha de vida da base. Hora de encontrá-la e economizá-la.",
+      "goal": "Divida a água entre beber, as plantas e o ar.",
+      "tip": "Extrair gelo custa energia. Reciclar economiza.",
+      "fact": "Astronautas reciclam a maior parte da água, até a do suor e da respiração.",
+      "factSource": "eclss",
+      "askKid": "Onde a água é mais importante em uma base?",
+      "learn": "A água liga todos os outros sistemas, então a falta se espalha rápido."
+    }
+  },
+  "chain": {
+    "battery_full_wasted": {
+      "title": "A bateria estava cheia",
+      "why": "Energia extra foi perdida. Da próxima vez, use ou guarde."
+    },
+    "dust_cut_power": {
+      "title": "A poeira cobriu os painéis",
+      "why": "A poeira bloqueia a luz do sol, então a base recebeu menos energia."
+    },
+    "water_short": {
+      "title": "A água ficou escassa",
+      "why": "Sem água suficiente, os outros sistemas ficaram mais lentos."
+    },
+    "air_short": {
+      "title": "A máquina de ar ficou sem energia",
+      "why": "Ela precisa de 2 blocos por dia para fazer ar fresco."
+    },
+    "science_air_cost": {
+      "title": "Uma caminhada científica gastou ar",
+      "why": "Sair da base custa ar, então planeje com cuidado."
+    },
+    "food_short": {
+      "title": "A comida acabou",
+      "why": "A tripulação enfraqueceu sem comida."
+    },
+    "air_empty": {
+      "title": "O ar acabou",
+      "why": "Sem ar fresco, a tripulação perdeu um coração."
+    },
+    "micro_hit": {
+      "title": "Uma pedra espacial atingiu o escudo",
+      "why": "Pedras pequenas podem danificar o escudo, então mantenha-o forte."
+    },
+    "storm_weak_shield": {
+      "title": "O escudo estava fraco demais",
+      "why": "Um escudo fraco deixa partículas espaciais chegarem à tripulação."
+    },
+    "storm_ok": {
+      "title": "O escudo resistiu",
+      "why": "Um escudo forte manteve a tripulação segura."
+    }
+  }
+}

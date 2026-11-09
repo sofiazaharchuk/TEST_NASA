@@ -1,0 +1,13 @@
+{
+  "note": "Well-known strong solar flares from public NASA/NOAA records (date and class only). Used ONLY when there is no live DONKI data and no downloaded archive. Run `npm run archive` to replace it with real DONKI records.",
+  "fetchedAt": null,
+  "events": [
+    { "flrID": "known-2003-11-04", "classType": "X28", "beginTime": "2003-11-04" },
+    { "flrID": "known-2017-09-06", "classType": "X9.3", "beginTime": "2017-09-06" },
+    { "flrID": "known-2017-09-10", "classType": "X8.2", "beginTime": "2017-09-10" },
+    { "flrID": "known-2024-10-03", "classType": "X9.0", "beginTime": "2024-10-03" },
+    { "flrID": "known-2024-05-14", "classType": "X8.7", "beginTime": "2024-05-14" },
+    { "flrID": "known-2012-03-07", "classType": "X5.4", "beginTime": "2012-03-07" },
+    { "flrID": "known-2011-08-09", "classType": "X6.9", "beginTime": "2011-08-09" }
+  ]
+}

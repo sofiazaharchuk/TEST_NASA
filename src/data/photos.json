@@ -1,0 +1,86 @@
+{
+  "moon": {
+    "file": "moon.jpg",
+    "title": "Ready for a Close Up",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "art002e009283",
+    "link": "https://images.nasa.gov/details/art002e009283"
+  },
+  "earth": {
+    "file": "earth.jpg",
+    "title": "Moon rise over the Earth",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "STS102-324-028",
+    "link": "https://images.nasa.gov/details/STS102-324-028"
+  },
+  "solar": {
+    "file": "solar.jpg",
+    "title": "NASA’s Solar Dynamics Observatory Captured Trio of Solar Flares April 2-3",
+    "credit": "Credit: NASA / GSFC",
+    "nasa_id": "GSFC_20171208_Archive_e000104",
+    "link": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000104"
+  },
+  "veggie": {
+    "file": "veggie.jpg",
+    "title": "Veggie Ponds experiment Initiation",
+    "credit": "Credit: David Saint-Jacques / JSC",
+    "nasa_id": "iss059e035668",
+    "link": "https://images.nasa.gov/details/iss059e035668"
+  },
+  "iss_water": {
+    "file": "iss_water.jpg",
+    "title": "Gorie watches water bubble in the MDDK during STS-123 / Expedition 16 Joint Operations",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "s123e006145",
+    "link": "https://images.nasa.gov/details/s123e006145"
+  },
+  "mars": {
+    "file": "mars.jpg",
+    "title": "Mars 2020 Perseverance Rover Wheels",
+    "credit": "Credit: NASA JPL/Christian Mangano / KSC",
+    "nasa_id": "KSC-20200402-PH-JPL01_0002",
+    "link": "https://images.nasa.gov/details/KSC-20200402-PH-JPL01_0002"
+  },
+  "iss_cabin": {
+    "file": "iss_cabin.jpg",
+    "title": "NASA astronaut Anil Menon works inside the International Space Station's Kibo laboratory module",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "iss075e0046813",
+    "link": "https://images.nasa.gov/details/iss075e0046813"
+  },
+  "moxie": {
+    "file": "moxie.jpg",
+    "title": "MOXIE All Tucked In",
+    "credit": "Credit: NASA/JPL-Caltech / JPL",
+    "nasa_id": "PIA24203",
+    "link": "https://images.nasa.gov/details/PIA24203"
+  },
+  "dsn": {
+    "file": "dsn.jpg",
+    "title": "Tracks of a Giant",
+    "credit": "Credit: NASA/JPL-Caltech / JPL",
+    "nasa_id": "PIA13277",
+    "link": "https://images.nasa.gov/details/PIA13277"
+  },
+  "aurora": {
+    "file": "aurora.jpg",
+    "title": "Earth observation taken using EHDC3",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "iss059e013118",
+    "link": "https://images.nasa.gov/details/iss059e013118"
+  },
+  "artemis": {
+    "file": "artemis.jpg",
+    "title": "Artist’s Concept Portrays SpaceX’s Starship HLS with Raptor Engines for NASA Artemis",
+    "credit": "Credit: Photo courtesy SpaceX / MSFC",
+    "nasa_id": "11 04 24 hls 2 raptors",
+    "link": "https://images.nasa.gov/details/11 04 24 hls 2 raptors"
+  },
+  "solar_panels": {
+    "file": "solar_panels.jpg",
+    "title": "International Space Station (ISS)",
+    "credit": "Credit: NASA / MSFC",
+    "nasa_id": "0101424",
+    "link": "https://images.nasa.gov/details/0101424"
+  }
+}

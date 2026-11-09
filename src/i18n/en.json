@@ -1,0 +1,518 @@
+{
+ "app": {
+  "name": "Outpost Academy",
+  "tagline": "Every choice has a cost. See why."
+ },
+ "common": {
+  "next": "Next",
+  "back": "Back",
+  "endDay": "End day",
+  "tryAgain": "Play again with a new plan",
+  "nextLevel": "Next level",
+  "source": "Source",
+  "forGrownUps": "For grown-ups",
+  "solo": "Solo",
+  "together": "Play together",
+  "pilot": "Pilot",
+  "copilot": "Co-pilot",
+  "askTogether": "Ask together",
+  "whyMatters": "Why it matters",
+  "realScience": "Real science",
+  "tryNext": "Try this next",
+  "whyChain": "Why did this happen?",
+  "blocksLeft": "Energy blocks left",
+  "because": "because"
+ },
+ "settings": {
+  "title": "Profile and settings",
+  "nickname": "Nickname",
+  "language": "Language",
+  "sound": "Sound",
+  "readAloud": "Read aloud",
+  "reduceMotion": "Less motion",
+  "bigText": "Bigger text",
+  "easyFont": "Easy-to-read font",
+  "saved": "Saved on this device only"
+ },
+ "resources": {
+  "air": "Air",
+  "power": "Energy",
+  "shield": "Shield",
+  "food": "Food",
+  "water": "Water"
+ },
+ "levels": {
+  "first_day": {
+   "name": "First Day",
+   "intro": "Welcome to your Moon base! Four astronauts are counting on you.",
+   "goal": "Keep the air machine running and the shield strong.",
+   "tip": "Every day you get energy blocks. Share them wisely!",
+   "fact": "An astronaut needs a bit less than 1 kilogram of oxygen every day.",
+   "factSource": "bvad",
+   "askKid": "Which system would you protect first, and why?",
+   "learn": "Everything on a base runs on limited energy, so every choice has a cost."
+  },
+  "long_night": {
+   "name": "Long Night",
+   "intro": "Night is coming. The Sun will hide for days.",
+   "goal": "Save energy in the battery before the lights go out.",
+   "tip": "No sunlight means no new blocks. Plan ahead!",
+   "fact": "On the Moon, one night lasts about two weeks on Earth.",
+   "factSource": "moon-facts",
+   "askKid": "How many days of energy should we save?",
+   "learn": "Planning ahead: what you save today prevents problems tomorrow."
+  },
+  "storm_watch": {
+   "name": "Storm Watch",
+   "intro": "A storm of space particles may reach the base.",
+   "goal": "Make the shield strong before the storm arrives.",
+   "tip": "The forecast shows when the storm comes. Use it!",
+   "fact": "NASA scientists track solar flares every day.",
+   "factSource": "donki",
+   "askKid": "Why is it smart to prepare before the storm?",
+   "learn": "Real space weather forecasts give crews time to prepare. Protection costs energy that you cannot use elsewhere."
+  },
+  "green_thumb": {
+   "name": "Green Thumb",
+   "intro": "Fresh food needs a garden. Time to build a greenhouse!",
+   "goal": "Grow food without leaving the base in the dark.",
+   "tip": "Plant lamps use energy. Balance light, air and shield.",
+   "fact": "Astronauts on the space station have grown and eaten lettuce.",
+   "factSource": "veggie",
+   "askKid": "What would you give up for a bigger harvest?",
+   "learn": "Growing food takes energy and water, so every system competes for the same resources."
+  },
+  "thirsty_base": {
+   "name": "Thirsty Base",
+   "intro": "Water is the base lifeline. Time to find it and save it.",
+   "goal": "Share water between drinking, plants and air.",
+   "tip": "Mining ice costs energy. Recycling saves it.",
+   "fact": "Astronauts recycle most of their water, even from sweat and breath.",
+   "factSource": "eclss",
+   "askKid": "Where does water matter most on a base?",
+   "learn": "Water connects all the other systems, so a shortage spreads quickly."
+  }
+ },
+ "chain": {
+  "battery_full_wasted": {
+   "title": "The battery was full",
+   "why": "Extra energy was lost. Next time, use it or save it."
+  },
+  "dust_cut_power": {
+   "title": "Dust covered the panels",
+   "why": "Dust blocks sunlight, so the base got less energy."
+  },
+  "water_short": {
+   "title": "Water ran low",
+   "why": "Without enough water, other systems slowed down."
+  },
+  "air_short": {
+   "title": "The air machine lacked energy",
+   "why": "It needs 2 blocks each day to make fresh air."
+  },
+  "science_air_cost": {
+   "title": "A science walk used air",
+   "why": "Going outside costs air, so plan it carefully."
+  },
+  "food_short": {
+   "title": "Food ran out",
+   "why": "The crew got weak without food."
+  },
+  "air_empty": {
+   "title": "The air ran out",
+   "why": "Without fresh air the crew lost a heart."
+  },
+  "micro_hit": {
+   "title": "A space rock hit the shield",
+   "why": "Tiny rocks can damage the shield, so keep it strong."
+  },
+  "storm_weak_shield": {
+   "title": "The shield was too weak",
+   "why": "A weak shield lets space particles reach the crew."
+  },
+  "storm_ok": {
+   "title": "The shield held",
+   "why": "Strong shielding kept the crew safe."
+  },
+  "clean_air_cost": {
+   "title": "Cleaning the panels used air",
+   "why": "Going outside to clean costs air, but it gives more energy tomorrow."
+  },
+  "decision_airlock": {
+   "title": "Mission Control decision: air filters",
+   "why": "You chose between fresher air and saving energy."
+  },
+  "decision_patch": {
+   "title": "Mission Control decision: the shield crack",
+   "why": "You chose between a stronger shield and new science."
+  },
+  "decision_rest": {
+   "title": "Mission Control decision: tired crew",
+   "why": "You chose between rest and an extra energy block."
+  },
+  "decision_solar": {
+   "title": "Mission Control decision: dusty panels",
+   "why": "You chose between more energy tomorrow and saving air."
+  },
+  "drone_used": {
+   "title": "The scout drone explored",
+   "why": "The drone did the science, so nobody had to go outside and breathe extra air."
+  },
+  "radio_used": {
+   "title": "You called Earth",
+   "why": "Earth helped the weakest system, but the call used a block of energy."
+  }
+ },
+ "start": {
+  "pick": "Pick your player name",
+  "privacy": "Made-up names keep real names private.",
+  "newName": "New name",
+  "avatar": "Avatar {{n}}",
+  "play": "Start playing",
+  "local": "Saved on this device only.",
+  "nameLabel": "Your player name",
+  "nameHint": "Type any name you like. Please don't use your full real name."
+ },
+ "nav": {
+  "home": "Levels",
+  "settings": "Settings",
+  "skip": "Skip to content",
+  "back": "Back",
+  "close": "Close"
+ },
+ "levelsScreen": {
+  "title": "Choose a level",
+  "locked": "Finish the previous level to unlock",
+  "level": "Level {{n}}",
+  "hello": "Hello, {{name}}!"
+ },
+ "intro": {
+  "goal": "Your goal",
+  "tip": "Tip",
+  "newSystem": "New system unlocked",
+  "start": "Start level",
+  "fact": "Did you know?",
+  "hear": "Read aloud",
+  "howTitle": "How it works",
+  "how1": "Every day you get energy blocks.",
+  "how2": "Tap + to give blocks to the machines.",
+  "how3": "Press End day and watch the hearts."
+ },
+ "game": {
+  "day": "Day {{day}} of {{total}}",
+  "stormTomorrow": "Solar storm tomorrow!",
+  "stormToday": "The storm is here!",
+  "air": "Air machine",
+  "airHint": "Needs 2 blocks every day",
+  "shield": "Shield",
+  "shieldHint": "+15 strength per block",
+  "food": "Greenhouse",
+  "foodHint": "Lamps use energy and water. +10 food per block",
+  "water": "Water",
+  "waterHint": "Mining ice. +8 water per block",
+  "battery": "Battery",
+  "batteryHint": "Saves leftover blocks. Holds {{cap}}.",
+  "wasted": "{{n}} wasted",
+  "less": "Less {{name}}",
+  "more": "More {{name}}",
+  "science": "Science walk: +1 star, costs 1 block and some air",
+  "shelter": "Crew shelter: costs 1 block and softens the storm",
+  "crew": "Crew: {{n}} of 4 hearts",
+  "noBlocks": "No blocks left. Take one from another system first.",
+  "status": {
+   "ok": "Good",
+   "warn": "Careful",
+   "danger": "Danger"
+  },
+  "hint": {
+   "air": "The air machine needs 2 blocks. Without them the air will drop.",
+   "wasted": "The battery is full, so {{n}} block(s) will be wasted. Put them into the Air machine or the Shield with +.",
+   "stormWarn": "A storm is coming tomorrow. A strong shield protects the crew.",
+   "shieldLow": "Shield at {{v}}. The storm would hurt the crew. Add blocks to the shield.",
+   "ok": "Looking good. Did you leave energy for tonight?"
+  },
+  "help": "How to play",
+  "goal": "Goal",
+  "blocks": "{{free}} of {{total}} energy blocks left to share",
+  "howTo": {
+   "title": "How to play",
+   "s1": "Look at the yellow squares: that is your energy for today.",
+   "s2": "Tap + on a machine to give it energy. The Air machine always needs 2.",
+   "s3": "Press End day. Watch the hearts: they show if your crew is safe.",
+   "close": "Got it"
+  },
+  "forecast": {
+   "storm": {
+    "tomorrow": "Solar storm tomorrow!",
+    "today": "The storm is here!"
+   },
+   "micro": {
+    "tomorrow": "A space rock may hit the shield tomorrow",
+    "today": "A space rock hits today!"
+   },
+   "dust": {
+    "tomorrow": "Dust may cover the panels tomorrow",
+    "today": "Dust covers the panels today"
+   }
+  },
+  "report": {
+   "title": "Day {{day}} report",
+   "next": "Next day",
+   "crew": "Crew hearts",
+   "calm": "A calm day. Nothing unexpected happened.",
+   "events": "What happened"
+  },
+  "clean": "Clean the solar panels: costs 1 block and some air, gives +2 blocks tomorrow",
+  "rest": "Crew rest: costs 1 block, gives back 1 heart",
+  "notice": {
+   "rested": "Your crew is already fully rested."
+  },
+  "drone": "Scout drone: costs 2 blocks, no air, +1 star",
+  "radio": "Radio Earth: costs 1 block, Earth helps your weakest system (+8)",
+  "step": "Do this now",
+  "energyTitle": "Energy blocks",
+  "leftLabel": "energy blocks left",
+  "machines": "Base machines",
+  "extra": "Extra actions",
+  "extraHint": "Each action costs energy blocks."
+ },
+ "debrief": {
+  "success": "Mission complete!",
+  "early": "Mission ended early",
+  "lets": "Let's find out why",
+  "safe": "Safe",
+  "smart": "Smart",
+  "curious": "Curious",
+  "noIssues": "No big problems this time. Great planning!",
+  "try": "Next time, try a different plan. What would you change first?"
+ },
+ "settingsExtra": {
+  "demo": "Unlock all levels (for demos)",
+  "beta": "Beta",
+  "betaHint": "Machine translated, being reviewed"
+ },
+ "spaceWeather": {
+  "title": "Space weather today",
+  "loading": "Checking the Sun…",
+  "live": "Live from NASA",
+  "archive": "From NASA records, not live",
+  "none": "No data",
+  "noneText": "No NASA data right now. The game uses a normal storm instead.",
+  "strongest": "Strongest solar flare in the last 30 days: {{c}}",
+  "noFlares": "No solar flares in the last 30 days.",
+  "calm": "Quiet Sun. The storm will be gentle.",
+  "minor": "A medium flare happened. The storm will be normal.",
+  "strong": "A very strong flare happened! The storm will be tough.",
+  "play": "Play with today's weather",
+  "chip": "Space weather: {{w}} ({{src}})",
+  "name": {
+   "calm": "calm",
+   "minor": "normal",
+   "strong": "strong"
+  },
+  "famous": "NASA does not answer right now, so here is a real flare from NASA records: {{c}}, {{d}}. The game uses a storm like it."
+ },
+ "tasks": {
+  "title": "Mission tasks",
+  "result": "{{done}} of {{total}} done",
+  "science": "Do {{n}} science walk(s)",
+  "noWaste": "Waste no energy blocks",
+  "hearts": "Keep {{n}} hearts",
+  "shield": "Keep the shield at {{n}} or more",
+  "food": "Keep food at {{n}} or more",
+  "water": "Keep water at {{n}} or more",
+  "air": "Keep air at {{n}} or more",
+  "clean": "Clean the solar panels {{n}} time(s)",
+  "rest": "Give the crew a rest {{n}} time(s)"
+ },
+ "together": {
+  "title": "Co-pilot corner",
+  "what": "A grown-up and a child play as a team. The child taps the blocks (Pilot). The grown-up reads the clues and asks questions (Co-pilot).",
+  "roles": "Pilot: the child taps + and −. Co-pilot: the grown-up reads aloud and asks.",
+  "q": {
+   "air": "Ask: What happens if the air machine does not get its 2 blocks?",
+   "waste": "Ask: Why is it a pity to waste energy blocks? Where could they go instead?",
+   "storm": "Ask: The storm comes tomorrow. How strong should the shield be, and why?",
+   "micro": "Ask: What could a space rock do to the shield? How can you get ready?",
+   "ok": "Ask: What do you think will happen when you press End day? Say your guess, then check the report."
+  },
+  "after": "Talk about it: What surprised you? What will you change tomorrow?",
+  "debrief": "Talk about it: What would you do differently next time?"
+ },
+ "decision": {
+  "title": "Message from Mission Control",
+  "pick": "Choose one. Each choice gains something and costs something.",
+  "gain": "You get",
+  "cost": "You pay",
+  "airlock": {
+   "text": "The air filters can get a deep check today.",
+   "a": "Do the deep check",
+   "b": "Skip it, save energy",
+   "aWhy": "The air is fresher, but the check uses a block tomorrow.",
+   "bWhy": "You save a block, but the air gets a little worse."
+  },
+  "patch": {
+   "text": "A small crack was found near the shield.",
+   "a": "Patch it now",
+   "b": "Study it instead",
+   "aWhy": "The shield is stronger, but the walk outside used air.",
+   "bWhy": "You learned something new, but the shield got weaker."
+  },
+  "rest": {
+   "text": "The crew is tired after a long day.",
+   "a": "Rest together",
+   "b": "Keep working",
+   "aWhy": "The crew feels better, but resting costs a block tomorrow.",
+   "bWhy": "You get an extra block, but the tired crew wastes some air."
+  },
+  "solar": {
+   "text": "Dust is on the solar panels.",
+   "a": "Go out and wipe them",
+   "b": "Stay inside",
+   "aWhy": "More energy tomorrow, but the walk used air.",
+   "bWhy": "Fresher air inside, but less energy tomorrow."
+  }
+ },
+ "quiz": {
+  "title": "Bonus science question",
+  "right": "Correct! +1 energy block tomorrow.",
+  "wrong": "Not this time. No penalty, now you know!",
+  "next": "Continue",
+  "oxygen": {
+   "q": "About how much oxygen does one astronaut breathe each day?",
+   "o": [
+    "About 1 gram",
+    "Almost 1 kilogram",
+    "About 10 kilograms"
+   ],
+   "why": "NASA life support planning uses a bit less than 1 kg of oxygen per person per day."
+  },
+  "moxie": {
+   "q": "What did the MOXIE experiment on Mars make?",
+   "o": [
+    "Water",
+    "Fuel",
+    "Oxygen"
+   ],
+   "why": "MOXIE made oxygen from Martian air on the Perseverance rover."
+  },
+  "flare": {
+   "q": "Which solar flare class is the strongest?",
+   "o": [
+    "X",
+    "M",
+    "C"
+   ],
+   "why": "Flares are ranked A, B, C, M, X. X is the strongest."
+  },
+  "delay": {
+   "q": "A message from Mars to Earth can take up to about...",
+   "o": [
+    "20 seconds",
+    "20 minutes",
+    "20 hours"
+   ],
+   "why": "Radio signals travel at light speed, but Mars is far away: up to about 20 minutes one way."
+  }
+ },
+ "grownup": {
+  "title": "Summary for grown-ups",
+  "win": "completed",
+  "fail": "not completed yet",
+  "copy": "Copy summary",
+  "copied": "Copied!",
+  "text": "Mission \"{{level}}\": {{result}}.\nCrew hearts: {{h}} of 4. Science done: {{sc}}. Energy wasted: {{w}}.\nTalk about it: {{q}}\nWhat this teaches: {{learn}}"
+ },
+ "coach": {
+  "title": "Your turn: 3 easy steps",
+  "air": "The Air machine already has 2 blocks. Keep them!",
+  "shield": "Tap the big + on the Shield to give it a block.",
+  "end": "Press the big End day button."
+ },
+ "scene": {
+  "label": "Your base. Shield {{s}} percent, air {{a}} percent, crew {{h}} of 4.",
+  "night": "Night: no sunlight",
+  "day": "Sunlight"
+ },
+ "mini": {
+  "play": "Mini-game: win +1 energy block",
+  "win": "You won! +1 energy block today.",
+  "lose": "Not this time. No penalty, try again tomorrow!",
+  "continue": "Continue",
+  "stop": "STOP!",
+  "tries": "Tries left: {{n}}",
+  "time": "Time left: {{n}} s",
+  "speck": "Dust",
+  "card": "Hidden card",
+  "skip": "Close",
+  "tuner": {
+   "title": "Tune the shield",
+   "help": "Press STOP when the marker is in the green zone. You have 3 tries."
+  },
+  "sweep": {
+   "title": "Sweep the solar panels",
+   "help": "Tap all 6 dust specks before the time runs out."
+  },
+  "memory": {
+   "title": "Match the machines",
+   "help": "Flip two cards. Find all 4 pairs."
+  }
+ },
+ "facts": {
+  "title": "Did you know?",
+  "oxygen": "One astronaut breathes almost 1 kilogram of oxygen every day.",
+  "flare": "Solar flares are ranked A, B, C, M and X. Each letter is about 10 times stronger than the one before.",
+  "moxie": "A small machine on Mars called MOXIE made oxygen from the Martian air.",
+  "delay": "A radio message from Mars to Earth can take up to about 20 minutes.",
+  "sol": "One day on Mars, called a sol, lasts about 24 hours and 40 minutes."
+ },
+ "badges": {
+  "title": "Your stickers",
+  "first_flight": {
+   "name": "First flight",
+   "desc": "Finish any level"
+  },
+  "night_owl": {
+   "name": "Night owl",
+   "desc": "Survive the long night"
+  },
+  "storm_survivor": {
+   "name": "Storm survivor",
+   "desc": "Finish Storm watch with 3 safe stars"
+  },
+  "gardener": {
+   "name": "Gardener",
+   "desc": "Finish Green thumb"
+  },
+  "water_keeper": {
+   "name": "Water keeper",
+   "desc": "Finish Thirsty base"
+  },
+  "zero_waste": {
+   "name": "Zero waste",
+   "desc": "Waste no energy in a level"
+  },
+  "scientist": {
+   "name": "Little scientist",
+   "desc": "Get 3 curious stars"
+  },
+  "commander": {
+   "name": "Base commander",
+   "desc": "Finish all 5 levels"
+  }
+ },
+ "cert": {
+  "btn": "Get my certificate",
+  "title": "Junior Astronaut",
+  "awarded": "This certificate is awarded to",
+  "text": "for completing the mission “{{level}}” at the Moon base.",
+  "print": "Print or save as PDF",
+  "close": "Close"
+ },
+ "replay": {
+  "title": "Replay a real NASA storm",
+  "text": "Play the storm level again, as if the Sun had just sent one of the strongest flares ever measured.",
+  "btn": "{{c}} · {{d}}",
+  "chip": "Real storm replay: {{c}}, {{d}}"
+ }
+}
