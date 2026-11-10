@@ -32,7 +32,10 @@
   "reduceMotion": "Less motion",
   "bigText": "Bigger text",
   "easyFont": "Easy-to-read font",
-  "saved": "Saved on this device only"
+  "saved": "Saved on this device only",
+  "theme": "Theme",
+  "themeDark": "Dark",
+  "themeLight": "Light"
  },
  "resources": {
   "air": "Air",
@@ -178,7 +181,8 @@
   "settings": "Settings",
   "skip": "Skip to content",
   "back": "Back",
-  "close": "Close"
+  "close": "Close",
+  "theme": "Switch light or dark theme"
  },
  "levelsScreen": {
   "title": "Choose a level",
@@ -514,5 +518,12 @@
   "text": "Play the storm level again, as if the Sun had just sent one of the strongest flares ever measured.",
   "btn": "{{c}} · {{d}}",
   "chip": "Real storm replay: {{c}}, {{d}}"
+ },
+ "error": {
+  "title": "Oops, the space station lost signal",
+  "text": "Something went wrong, but your stars are safe. Tap the button to go back to the missions.",
+  "back": "Back to missions",
+  "reload": "Reload the page",
+  "details": "Technical details"
  }
 }

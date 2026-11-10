@@ -14,7 +14,7 @@ export function blocksToday(l: Level, s: State) {
 }
 export function playDay(l: Level, s0: State, m: Move, weather: Weather = "minor"): State {
   if (s0.over) return s0;
-  const s: State = structuredClone(s0);
+  const s: State = JSON.parse(JSON.stringify(s0));
   const log = (key: string) => s.chain.push({ day: s.day, key });
   const a = m.alloc;
   const has = (r: string) => (l.res as readonly string[]).includes(r);

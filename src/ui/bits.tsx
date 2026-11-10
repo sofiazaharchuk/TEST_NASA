@@ -3,7 +3,7 @@ import { SOURCES } from "../data/sources.ts";
 import { EXTRA_SOURCES } from "../data/sources.extra.ts";
 
 export const btnPrimary = "btn-shine inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 px-6 text-lg font-semibold text-white shadow-[0_0_24px_rgba(6,182,212,.4)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0";
-export const btnGhost = "inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 text-base font-medium text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 active:translate-y-0";
+export const btnGhost = "inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 text-base font-medium transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/10 active:translate-y-0";
 export const glass = "rounded-2xl border border-white/10 bg-white/5 shadow-xl md:backdrop-blur-md";
 
 export function Stars({ n, label }: { n: number; label: string }) {

@@ -58,7 +58,7 @@ export default function Game() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
         {/* LEFT: look here first. The picture, the vitals, then ONE instruction */}
         <div className="min-w-0 space-y-3 lg:sticky lg:top-4">
-          <div className="relative h-72 overflow-hidden rounded-3xl border border-white/10 sm:h-96 lg:h-[30rem]" role="group" aria-label={t("scene.label", { s: Math.round(shield), a: Math.round(g.stock.air), h: g.hearts })}>
+          <div className="on-photo relative h-72 overflow-hidden rounded-3xl border border-white/10 sm:h-96 lg:h-[30rem]" role="group" aria-label={t("scene.label", { s: Math.round(shield), a: Math.round(g.stock.air), h: g.hearts })}>
             <AnimatePresence initial={false}>
               <motion.div key={heroTheme} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9 }}>
                 <Photo theme={heroTheme} className="absolute inset-0" overlay kenburns />

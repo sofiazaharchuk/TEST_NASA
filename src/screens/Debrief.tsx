@@ -29,7 +29,7 @@ export default function Debrief() {
   return (
     <div className="mx-auto max-w-3xl space-y-4">
       {win && !settings.reduceMotion && <Confetti />}
-      <div className="relative h-48 overflow-hidden rounded-3xl border border-white/10 sm:h-60">
+      <div className="on-photo relative h-48 overflow-hidden rounded-3xl border border-white/10 sm:h-60">
         <Photo theme={LEVEL_THEME[l.id]} className="absolute inset-0" kenburns />
         <div className="absolute inset-x-0 bottom-0 flex items-center gap-3 p-4">
           <Heart aria-hidden className={`h-10 w-10 shrink-0 ${win ? "anim-beat fill-rose-400 text-rose-400" : "text-slate-300"}`} />

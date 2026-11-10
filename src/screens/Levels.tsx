@@ -26,7 +26,7 @@ export default function Levels() {
           return (
             <motion.li key={l.id} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07, duration: 0.35, ease: [0.2, 0.8, 0.2, 1] }}>
               <button disabled={!open} onClick={() => openLevel(i)} aria-label={`${t("levelsScreen.level", { n: i + 1 })}: ${t(`levels.${l.id}.name`)}`}
-                className={`group relative isolate flex min-h-44 w-full overflow-hidden rounded-3xl border text-left transition-all duration-300 sm:min-h-52 ${open ? "border-white/15 hover:border-cyan-300/60 hover:shadow-[0_0_30px_rgba(34,211,238,.25)]" : "border-white/5 grayscale"}`}>
+                className={`on-photo group relative isolate flex min-h-44 w-full overflow-hidden rounded-3xl border text-left transition-all duration-300 sm:min-h-52 ${open ? "border-white/15 hover:border-cyan-300/60 hover:shadow-[0_0_30px_rgba(34,211,238,.25)]" : "border-white/5 grayscale"}`}>
                 <Photo theme={LEVEL_THEME[l.id]} className="absolute inset-0 -z-10 transition-transform duration-700 group-hover:scale-105" overlay credit={false} />
                 <span className="absolute left-3 top-3 rounded-full bg-slate-950/70 px-3 py-1 text-xs font-bold uppercase tracking-wider text-cyan-300 backdrop-blur">{t("levelsScreen.level", { n: i + 1 })}</span>
                 <span className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full bg-slate-950/70 backdrop-blur">{open ? (done ? <CheckCircle2 aria-hidden className="text-emerald-300" /> : <Play aria-hidden />) : <Lock aria-hidden />}</span>

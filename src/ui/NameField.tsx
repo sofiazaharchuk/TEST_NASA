@@ -18,7 +18,7 @@ export function NameField({ id }: { id: string }) {
         <input id={id} value={profile.nickname} maxLength={20} autoComplete="off" spellCheck={false}
           onChange={e => setProfile({ nickname: clean(e.target.value) })}
           onBlur={() => setProfile({ nickname: profile.nickname.trim() || randomNick() })}
-          className="min-h-14 min-w-0 flex-1 rounded-xl border border-white/15 bg-white/5 px-4 text-lg text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60" />
+          className="min-h-14 min-w-0 flex-1 rounded-xl border border-white/15 bg-white/5 px-4 text-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-400/60" />
         <button type="button" className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-white/15 bg-white/5 hover:bg-white/10" aria-label={t("start.newName")} onClick={() => setProfile({ nickname: randomNick() })}><RefreshCw aria-hidden /></button>
       </div>
       <p className="mt-1 text-xs text-slate-400">{t("start.nameHint")}</p>

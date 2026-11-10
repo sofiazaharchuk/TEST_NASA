@@ -39,3 +39,17 @@ console.log("all logic tests passed");
   assert.ok(!badgesOf({ unlocked: 1, stars: { first_day: st(3, 3, 3) } }).some(b => b.earned), "failed or unfinished levels earn nothing");
   console.log("badge tests passed");
 }
+
+// Resume + theme safety
+{
+  const { sanitizeRun, normalizeTheme } = await import("../src/game/resume.ts");
+  const { newGame, playDay } = await import("../src/sim/engine.ts");
+  const { LEVELS } = await import("../src/data/levels.ts");
+  assert.equal(normalizeTheme(undefined), "dark", "dark is the default"); assert.equal(normalizeTheme("light"), "light"); assert.equal(normalizeTheme("neon"), "dark");
+  const l = LEVELS[1], g = playDay(l, newGame(l), { alloc: { air: 2 } });
+  const ok = sanitizeRun({ levelIdx: 1, game: g, weather: "strong", weatherSrc: "archive", replay: null, miniDone: true });
+  assert.ok(ok && ok.game.day === g.day && ok.weather === "strong" && ok.miniDone, "a valid unfinished run is restored");
+  for (const bad of [null, 5, {}, { levelIdx: 99, game: g }, { levelIdx: 1, game: { ...g, day: 99 } }, { levelIdx: 1, game: { ...g, hearts: 0 } }, { levelIdx: 1, game: { ...g, stock: { air: NaN } } }, { levelIdx: 1, game: { ...g, chain: "x" } }, { levelIdx: 1, game: { ...g, over: "success" } }, { levelIdx: 1, game: { day: 2 } }])
+    assert.equal(sanitizeRun(bad), null, "damaged or finished runs are rejected: " + JSON.stringify(bad)?.slice(0, 40));
+  console.log("resume tests passed");
+}

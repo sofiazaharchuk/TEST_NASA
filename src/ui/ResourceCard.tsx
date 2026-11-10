@@ -22,7 +22,7 @@ export function ResourceCard({ id, label, hint, value, status, statusText, block
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <div className="grid h-12 w-12 place-items-center rounded-xl bg-white/5 ring-1 ring-white/10"><Icon aria-hidden className="h-6 w-6" /></div>
         <div className="min-w-[7rem] flex-1">
-          <h3 className="font-head text-lg font-extrabold text-white">{label}</h3>
+          <h3 className="font-head text-lg font-extrabold">{label}</h3>
           <p className="text-sm text-slate-300">{hint}</p>
         </div>
         <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium ${badgeCls}`}><Badge aria-hidden className="h-3.5 w-3.5" />{statusText}</span>

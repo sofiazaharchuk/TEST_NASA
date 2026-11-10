@@ -15,7 +15,7 @@ export function decisionFor(l: Level, levelIdx: number, day: number): Decision |
 }
 /** Resources the level does not have are ignored; hearts never exceed 4. */
 export function applyDecision(l: Level, s: State, d: Decision, pick: "a" | "b"): State {
-  const e = d[pick], n: State = structuredClone(s);
+  const e = d[pick], n: State = JSON.parse(JSON.stringify(s));
   for (const [r, v] of Object.entries(e.stock ?? {}) as [Res, number][]) if (r !== "power" && (l.res as readonly string[]).includes(r)) n.stock[r] = c(n.stock[r] + v);
   n.bonus = Math.max(0, n.bonus + (e.bonus ?? 0));
   n.hearts = Math.min(4, n.hearts + (e.hearts ?? 0));

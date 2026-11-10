@@ -5,11 +5,12 @@ import { newGame, playDay, stars } from "./sim/engine.ts";
 import type { Alloc, Res, State } from "./sim/types.ts";
 import type { Weather, Source } from "./nasa/donki.ts";
 import { DECISIONS, applyDecision, applyQuiz, decisionFor, quizFor, type Decision, type Quiz } from "./game/decisions.ts";
+import { sanitizeRun, normalizeTheme } from "./game/resume.ts";
 import { applyResult, blocksLeft, defaultAlloc, noActs, randomNick, type Acts, type Progress } from "./game/logic.ts";
 
 export type Mini = "tuner" | "sweep" | "memory";
 export type Screen = "start" | "levels" | "intro" | "game" | "debrief" | "settings";
-export interface Settings { reduceMotion: boolean; bigText: boolean; easyFont: boolean; readAloud: boolean; together: boolean; demo: boolean; sound: boolean }
+export interface Settings { reduceMotion: boolean; bigText: boolean; easyFont: boolean; readAloud: boolean; together: boolean; demo: boolean; sound: boolean; theme: "dark" | "light" }
 export interface Profile { nickname: string; avatar: number; lang: string; started: boolean }
 export type Pending = { kind: "decision"; d: Decision } | { kind: "quiz"; q: Quiz } | null;
 export interface Report { before: State; after: State }
@@ -21,21 +22,23 @@ interface Store {
   choose: (pick: "a" | "b") => void; answerQuiz: (correct: boolean) => void; closePending: () => void;
   go: (s: Screen) => void; setProfile: (p: Partial<Profile>) => void; setSettings: (s: Partial<Settings>) => void;
   openLevel: (i: number, w?: Weather, src?: Source | null, replay?: string | null) => void; startLevel: () => void; adjust: (r: Res, d: 1 | -1) => void;
-  toggle: (k: keyof Acts) => void; closeReport: () => void; endDay: () => void;
+  toggle: (k: keyof Acts) => void; closeReport: () => void; endDay: () => void; recover: () => void;
 }
-const KEY = "oa.v1";
+const KEY = "oa.v1"; // same key as before: old players keep their progress; every field is validated when loaded
 const load = () => { try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; } catch { return null; } };
-const saved = load();
+const saved = load(), savedRun = sanitizeRun(saved?.run);
 const defaults = {
   profile: { nickname: randomNick(), avatar: 0, lang: "en", started: false } as Profile,
-  settings: { reduceMotion: false, bigText: false, easyFont: false, readAloud: false, together: false, demo: false, sound: true } as Settings,
+  settings: { reduceMotion: false, bigText: false, easyFont: false, readAloud: false, together: false, demo: false, sound: true, theme: "dark" } as Settings,
   progress: { unlocked: 0, stars: {} } as Progress,
 };
 
 export const useStore = create<Store>()((set, get) => ({
-  screen: saved?.profile?.started ? "levels" : "start", back: "levels",
-  profile: { ...defaults.profile, ...saved?.profile }, settings: { ...defaults.settings, ...saved?.settings }, progress: { ...defaults.progress, ...saved?.progress },
-  levelIdx: 0, weather: "minor", weatherSrc: null, replay: null, game: null, report: null, alloc: defaultAlloc(), acts: noActs, notice: null, pending: null, mini: null, miniDone: false,
+  screen: savedRun ? "game" : saved?.profile?.started ? "levels" : "start", back: "levels",
+  profile: { ...defaults.profile, ...saved?.profile }, settings: { ...defaults.settings, ...saved?.settings, theme: normalizeTheme(saved?.settings?.theme) },
+  progress: { ...defaults.progress, ...(saved?.progress && typeof saved.progress === "object" ? saved.progress : {}), stars: saved?.progress?.stars ?? {} },
+  levelIdx: savedRun?.levelIdx ?? 0, weather: savedRun?.weather ?? "minor", weatherSrc: (savedRun?.weatherSrc as Source | null) ?? null, replay: savedRun?.replay ?? null, game: savedRun?.game ?? null, report: null, alloc: defaultAlloc(), acts: noActs, notice: null, pending: null, mini: null, miniDone: savedRun?.miniDone ?? false,
+  recover: () => set({ screen: "levels", game: null, report: null, pending: null, mini: null, notice: null, alloc: defaultAlloc(), acts: noActs }),
   go: screen => set(s => ({ screen, back: screen === "settings" ? s.screen : s.back, notice: null })),
   setProfile: p => set(s => ({ profile: { ...s.profile, ...p } })),
   setSettings: p => set(s => ({ settings: { ...s.settings, ...p } })),
@@ -71,4 +74,7 @@ export const useStore = create<Store>()((set, get) => ({
     else set({ game: next, pending: decisionFor(level, levelIdx, next.day) ? { kind: "decision", d: decisionFor(level, levelIdx, next.day)! } : next.day > 2 ? { kind: "quiz", q: quizFor(levelIdx, next.day) } : null, report: { before: game, after: next }, alloc: defaultAlloc(), acts: noActs, notice: null, miniDone: false });
   },
 }));
-useStore.subscribe(s => { try { localStorage.setItem(KEY, JSON.stringify({ profile: s.profile, settings: s.settings, progress: s.progress })); } catch { /* storage unavailable */ } });
+useStore.subscribe(s => {
+  // an unfinished level is kept so a refresh continues where the child stopped
+  const run = s.game && !s.game.over && (s.screen === "game" || (s.screen === "settings" && s.back === "game")) ? { levelIdx: s.levelIdx, game: s.game, weather: s.weather, weatherSrc: s.weatherSrc, replay: s.replay, miniDone: s.miniDone } : null;
+  try { localStorage.setItem(KEY, JSON.stringify({ profile: s.profile, settings: s.settings, progress: s.progress, run })); } catch { /* storage unavailable */ } });

@@ -48,7 +48,7 @@ npm run dev                 # http://localhost:5173
 | Sound | **WebAudio** (`src/lib/sfx.ts`) | No audio files to download |
 | NASA data | **DONKI** (solar flares), **NASA Image and Video Library** (photos) | Free, public |
 | Tests | Plain **Node** (`node --experimental-strip-types`) | The simulation has no UI, so tests need no browser |
-| Hosting | Any static host (Vercel, Netlify, GitHub Pages) | No backend needed |
+| Hosting | Any static host (Vercel, Netlify, GitHub Pages) | No backend needed. Vercel: preset Vite, build `npm run build`, output `dist`, env `VITE_NASA_API_KEY` |
 
 No accounts, no server, no tracking. The profile (nickname, avatar, progress, settings) is stored only on the device (`localStorage`, key `oa.v1`).
 
@@ -62,6 +62,7 @@ src/
     types.ts        Level, State, Move, Res...
     engine.ts       newGame, playDay, blocksToday, stars, stormThresholds
   game/           UI-independent helpers
+    resume.ts       save/restore of an unfinished level (validated)
     logic.ts        blocks used/left, task checks, forecast, Why-chain, progress, status colours
     decisions.ts    Mission Control decisions + bonus science questions
   data/           DATA, not code
@@ -75,7 +76,7 @@ src/
   screens/        Start, Levels, Intro, Game, Debrief, Settings, SpaceWeather
   ui/             ResourceCard, CoPilot (grown-up helper), Photo, WeatherFx, MiniGames, bits...
   i18n/           en.json, uk.json (complete) + es fr de pl pt tr ar hi (beta)
-  lib/            sfx.ts (sound), speak.ts (read aloud)
+  lib/            sfx.ts (sound), speak.ts (read aloud), resilience.ts (chunk-error recovery)
   styles/         tokens.css (design tokens, accessibility), index.css (animations, responsive)
 tests/            sim, logic, donki, content tests
 tools/            download_photos.mjs, fetch_donki_archive.mjs, _net.mjs (retry helper)
@@ -206,6 +207,18 @@ All of them are disabled by Settings -> "Less motion" and by the system `prefers
 **Performance:** lazy screens (prefetched when idle), lazy languages, vendor chunks (`react`, `motion`, `i18n`, `icons`), transform/opacity-only animations, async-decoded photos.
 
 ---
+
+## 5b. Light / dark theme
+
+Dark is the default and the original design. Light is optional: Sun/Moon button in the header or Settings -> Theme. The choice is saved (`settings.theme`) and applied before the first paint by a tiny script in `index.html` (no flash). Implementation: `<html data-theme="light">` + `src/styles/light.css`, which remaps the dark-only Tailwind classes. **Rule:** a container with a photo behind white text gets the class `on-photo`, it stays dark in both themes. If you add a new colour class that only works on dark, add it to the generated list in `light.css` (the file header explains the pattern).
+
+## 5c. Stability (read before deploying)
+
+- **ErrorBoundary** (`ui/ErrorBoundary.tsx`): if any screen crashes, the player sees a friendly page with "Back to missions" instead of an empty background. The technical message is in a collapsible block, useful for bug reports.
+- **Stale chunks after a redeploy** (`lib/resilience.ts`): an old open tab asks for old hashed files that no longer exist. Lazy screens are wrapped in `lazyRetry` (retry once, then one safe page reload) and `vite:preloadError` is handled. This was the cause of the "everything disappears, only the background stays" bug on Vercel.
+- **Old devices:** no `structuredClone` (missing on older iPhones/iPads and school Chromebooks). Avoid new browser APIs without a fallback.
+- **Resume:** an unfinished level is saved in `localStorage` (`run`) and restored after a refresh. `game/resume.ts` validates it and rejects anything damaged or from an older version.
+- `vercel.json` sets cache headers: `index.html` never cached, `/assets/*` immutable.
 
 ## 6. Translations
 
