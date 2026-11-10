@@ -252,6 +252,7 @@ Dark is the default and the original design. Light is optional: Sun/Moon button 
 ## 9. Deploy
 
 `npm run build` -> upload `dist/` to Vercel / Netlify / GitHub Pages (`base: "./"`, so any sub-path works).
+**GitHub Pages:** `.github/workflows/deploy.yml` builds and publishes on every push to `main`. One-time setup: repository Settings -> Pages -> Source = **GitHub Actions** (the repository must be public on a free plan). The game then lives at `https://<user>.github.io/<repo>/`. Add the NASA key as an Actions secret named `VITE_NASA_API_KEY`. The workflow runs `npm test` first, so a broken build never goes live.
 **Key security:** `VITE_NASA_API_KEY` is embedded in the public JS. Use a free key you can rotate, or put the request behind a small serverless function. Never commit `.env` (it is git-ignored).
 
 ---

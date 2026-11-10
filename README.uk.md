@@ -113,7 +113,9 @@ tests/  tools/  тести і скрипти завантаження фото/�
 
 ## 8. Деплой і безпека
 
-`npm run build` -> `dist/` на Vercel / Netlify / GitHub Pages. Змінна `VITE_NASA_API_KEY` потрапляє в публічний JS: використовуйте безкоштовний ключ, який можна змінити, або serverless-проксі. Файл `.env` ніколи не комітьте.
+`npm run build` -> `dist/` на Vercel / Netlify / GitHub Pages. **GitHub Pages:** `.github/workflows/deploy.yml` збирає і публікує гру при кожному пуші в `main`. Разова настройка: Settings -> Pages -> Source = **GitHub Actions** (репозиторій має бути публічним на безкоштовному плані). Гра буде за адресою `https://<користувач>.github.io/<репозиторій>/`. Ключ NASA додайте як Actions secret з назвою `VITE_NASA_API_KEY`. Перед публікацією запускається `npm test`.
+
+Змінна `VITE_NASA_API_KEY` потрапляє в публічний JS: використовуйте безкоштовний ключ, який можна змінити, або serverless-проксі. Файл `.env` ніколи не комітьте.
 
 ## 9. Правила хакатону
 
