@@ -511,7 +511,11 @@
   "awarded": "This certificate is awarded to",
   "text": "for completing the mission “{{level}}” at the Moon base.",
   "print": "Print or save as PDF",
-  "close": "Close"
+  "close": "Close",
+  "save": "Save as picture",
+  "saving": "Preparing...",
+  "hold": "Saved or shared? If nothing happened, press and hold the picture and choose “Save image”.",
+  "failed": "Could not make the picture. Try the Print button."
  },
  "replay": {
   "title": "Replay a real NASA storm",

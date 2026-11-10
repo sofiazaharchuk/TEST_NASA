@@ -174,7 +174,7 @@ Look order is designed on purpose: **1)** slim mission bar (level, day, hearts) 
 ### 4.9 Rewards and extras
 
 - **Stickers** (`badgesOf` in `game/logic.ts`): derived from saved progress (`progress.won`, `progress.stars`), nothing extra stored.
-- **Certificate** (`ui/Certificate.tsx`): printable / save-as-PDF "Junior Astronaut" certificate after a win.
+- **Certificate** (`ui/Certificate.tsx`): "Junior Astronaut" certificate after a win. It is drawn on a canvas and saved/shared as a **PNG** (works on phones and in in-app browsers; `window.print()` does not), with Print/PDF as a secondary button.
 - **Replay a real NASA storm** (Levels screen, from level 3): plays the storm level with the strength of a famous real flare (`donkiBuiltin.json`).
 - **Did you know?** cards (`data/facts.ts`, `ui/FactCard.tsx`): a NASA photo + a fact with its source.
 
