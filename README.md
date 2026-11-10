@@ -216,6 +216,7 @@ Dark is the default and the original design. Light is optional: Sun/Moon button 
 
 - **ErrorBoundary** (`ui/ErrorBoundary.tsx`): if any screen crashes, the player sees a friendly page with "Back to missions" instead of an empty background. The technical message is in a collapsible block, useful for bug reports.
 - **Stale chunks after a redeploy** (`lib/resilience.ts`): an old open tab asks for old hashed files that no longer exist. Lazy screens are wrapped in `lazyRetry` (retry once, then one safe page reload) and `vite:preloadError` is handled. This was the cause of the "everything disappears, only the background stays" bug on Vercel.
+- **Browser auto-translate crashes React.** Chrome/Google Translate rewrite the page text, then React throws `Failed to execute 'insertBefore' on 'Node'` and the screen shows the error page. Fixed with `translate="no"` + `<meta name="google" content="notranslate">` in `index.html` and a small guard in `main.tsx`. The game has its own translations, so never rely on browser translation.
 - **Old devices:** no `structuredClone` (missing on older iPhones/iPads and school Chromebooks). Avoid new browser APIs without a fallback.
 - **Resume:** an unfinished level is saved in `localStorage` (`run`) and restored after a refresh. `game/resume.ts` validates it and rejects anything damaged or from an older version.
 - `vercel.json` sets cache headers: `index.html` never cached, `/assets/*` immutable.
