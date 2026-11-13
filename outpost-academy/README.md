@@ -46,7 +46,7 @@ npm run dev                 # http://localhost:5173
 | Icons | **lucide-react** | Light, consistent icon set |
 | Translations | **i18next + react-i18next** | English and Ukrainian built in, other languages lazy-loaded |
 | Sound | **WebAudio** (`src/lib/sfx.ts`) | No audio files to download |
-| NASA data | **DONKI** (solar flares), **NASA Image and Video Library** (photos) | Free, public |
+| NASA data | **DONKI** (solar flares, live), **APOD** (picture of the day, live), **NASA Image and Video Library** (photos), plus OSDR, RadLab, Mars Trek, BVAD, MOXIE and a CSA food fact | Free, public |
 | Tests | Plain **Node** (`node --experimental-strip-types`) | The simulation has no UI, so tests need no browser |
 | Hosting | Any static host (Vercel, Netlify, GitHub Pages) | No backend needed. Vercel: preset Vite, build `npm run build`, output `dist`, env `VITE_NASA_API_KEY` |
 
@@ -66,7 +66,7 @@ src/
     logic.ts        blocks used/left, task checks, forecast, Why-chain, progress, status colours
     decisions.ts    Mission Control decisions + bonus science questions
   data/           DATA, not code
-    levels.ts       the 10 levels: 5 Moon + 5 Mars (+ ACTIONS table)
+    levels.ts       the 5 levels (+ ACTIONS table)
     sources.ts      every fact's NASA source (+ sources.extra.ts, levelSources.ts)
     themes.ts       level -> photo theme
     photos.json     (generated) photo list with credits
@@ -144,25 +144,25 @@ Levels are **data**. Each one has: days, which resources exist, daily income (0 
 | 3 | Storm watch | 8 | A solar storm: build the shield in advance |
 | 4 | Green thumb | 8 | Food appears |
 | 5 | Thirsty base | 8 | Water appears |
-| 6 | Hello, Mars | 6 | Mars: weaker Sun (5 blocks), the **weather card**, cold sol, dust devil |
-| 7 | Frozen sols | 8 | Cold snaps: heaters take 1 block, plants grow slower |
-| 8 | Dust season | 8 | Dusty sky halves the sunlight; a dust devil cleans the panels; solar storm at the end |
-| 9 | Global dust storm | 10 | 4 days with almost no sunlight (based on the 2018 storm): fill the 8-block battery first |
-| 10 | Mars commander | 10 | Everything together: cold, dust, dust devil, global storm, solar storm |
+| 6 | Red Planet Arrival (Mars) | 6 | Mars sky: dust takes sunlight away |
+| 7 | Dust Storm Season (Mars) | 8 | Three dusty sols in a row: store power first |
+| 8 | Red Garden (Mars) | 8 | Food on Mars plus a solar storm: no magnetic shield |
 
-**Mars weather** is a `sky` list in the level (one entry per day): `clear`, `cold` (-1 block, plants -4 food), `dusty` (half sunlight), `devil` (+2 blocks next day, the panels get cleaned), `global` (a quarter of the sunlight). The engine function `incomeAt()` applies it, `skyAt()` reads it. Mars also needs a 5-point stronger shield (thin air, no global magnetic field): `stormThresholds(weather, "mars")`. The player sees today and tomorrow in the **weather card** (`SkyCard` in `Game.tsx`), the whole mission forecast in the Intro, and the animated sky on the photo (`WeatherFx`). The numbers are game values; the science behind them is cited (sources marked `verify` in `sources.extra.ts` must be confirmed against the exact NASA page before the submission).
+### 4.4b Mars weather
+
+Mars levels (6-8) are played under a chosen **Mars sky**: clear (full sunlight), dust haze (-1 energy block every sol) or global dust storm like 2018 (-2 blocks every sol). The choice is made on the Intro screen of a Mars level, or from the "Weather on Mars" card on the Levels screen. It is stored in `State.incomeCut` (set in `newGame(level, weather)`) and applied in `blocksToday`. **These are scenarios built from real Martian weather, NOT a live feed** (NASA has no stable public live Mars weather API for the game); the UI says so. Solar storms on Mars levels use fixed thresholds because on Mars the weather is dust. The source `mars-dust` in `data/sources.ts` is flagged `verify: true`: check it before submission.
 
 ### 4.5 Decisions, questions, mini-games
 
 - **Mission Control decisions** (`src/game/decisions.ts`): two options, each one **gains something and costs something**. A test (`tests/content.test.ts`) fails if an option is free.
-- **Bonus science questions**: 39 questions (12 Moon, 15 Mars, 12 for everywhere), each with a source. A level only asks questions of its own world, and `quizFor()` never repeats a question inside one level (tested). The right answer is not always in the same place (tested). A right answer gives +1 block, a wrong answer teaches the fact with no penalty. Decisions: 9 (some need water, food, the Moon or Mars).
+- **Bonus science questions**: 4 questions with NASA-sourced answers; a right answer gives +1 block, a wrong answer teaches the fact with no penalty.
 - **Mini-games** (`src/ui/MiniGames.tsx`): *Tune the shield* (timing), *Sweep the solar panels* (tap 6 dust specks in 10 s), *Match the machines* (memory). One per day, chosen by `(levelIdx + day) % 3`.
 
 ### 4.6 Real NASA data
 
 `src/nasa/donki.ts` -> `loadFlares()` tries, in order:
 1. fresh cache (under 30 min, saves the API limit)
-2. **live** DONKI request (8 s timeout)
+2. **live** DONKI request (12 s timeout). DONKI moved to `https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR` (no key, max 60 days per request); the old `api.nasa.gov/DONKI` address now answers 404 and is only a second try
 3. older cache
 4. downloaded archive `src/data/donkiArchive.json` (`npm run archive`)
 5. built-in list of famous real flares `src/data/donkiBuiltin.json` (date + class only)
@@ -214,6 +214,10 @@ All of them are disabled by Settings -> "Less motion" and by the system `prefers
 **Performance:** lazy screens (prefetched when idle), lazy languages, vendor chunks (`react`, `motion`, `i18n`, `icons`), transform/opacity-only animations, async-decoded photos.
 
 ---
+
+## 5a. Phones: scale and overflow
+
+The viewport meta is `width=device-width, initial-scale=1`. If a page ever opens "too big" and needs pinch-zoom, something is wider than the screen. `index.css` clips horizontal overflow (`html, body, #root`) and lets grid children shrink (`min-width: 0`). To find a culprit on a real phone, open the site with `?debug=overflow` at the end of the URL (for example `https://.../TEST_NASA/?debug=overflow`): every element wider than the screen gets a red outline and is listed at the bottom; send a screenshot.
 
 ## 5b. Light / dark theme
 
@@ -267,12 +271,27 @@ Dark is the default and the original design. Light is optional: Sun/Moon button 
 
 ## 10. Hackathon rules and honesty
 
-- Space Apps says teams must not start work on challenges before the hackathon (14-15 Nov 2026). This build was prepared in advance **with the organizers' approval; keep their written confirmation** and disclose it in the submission.
 - Disclose AI assistance (Claude) in the submission, as required.
-- List NASA data used: DONKI, NASA Image and Video Library, BVAD, MOXIE and other sources in `src/data/sources.ts`.
+- List NASA data used: DONKI and APOD (live), NASA Image and Video Library, BVAD, MOXIE, OSDR, RadLab, Mars Trek and other sources in `src/data/sources.ts`. APOD lives in `nasa/apod.ts` (cache 6 h; hidden if NASA has nothing, if the picture is copyrighted by someone else, or if it is a placeholder). The list of data sources for the presentation is in `docs/SUBMISSION.md`.
 - Facts flagged `verify: true` in the sources file must be checked before submitting (they show "(verify!)" in dev mode).
 - Do not show photos, video or voices of children under 18.
 
 ## 11. Known limitations / ideas
 
-Mars weather is a teaching model (no live Mars weather feed: NASA's InSight weather service has ended, and Perseverance MEDA data is not a simple web API). Offline mode / PWA is not implemented. UI has no automated tests. Beta translations need native review. The game balance is a teaching model, not an engineering simulation.
+Mars levels are not built yet (`world: "mars"` is supported by the types). Offline mode / PWA is not implemented. UI has no automated tests. Beta translations need native review. The game balance is a teaching model, not an engineering simulation.
+
+## 12. Space Apps checklist (rules of the 2026 challenge)
+
+Full, ready-to-paste texts for the submission form are in `docs/SUBMISSION.md`. Summary of the rules this project follows:
+
+- **Challenge fit:** a game where the player runs a Moon or Mars outpost and balances life support (air, water), radiation shielding, power and food, and sees why a mission succeeds or fails.
+- **Judging criteria** (Space Apps guide): Influence, Creativity, Validity, Relevance, Presentation. The mapping is in `docs/SUBMISSION.md`.
+- **NASA data** is required for a Global Award: DONKI (live), APOD (live), NASA Image and Video Library (photos), BVAD, OSDR, RadLab, Mars Trek, MOXIE. Every source is listed in `src/data/sources.ts`.
+- **Open license:** MIT (`LICENSE`). Photos and data stay under their owners' terms, with credits shown in the game.
+- **Use of AI (must be disclosed):** the code, texts and translations were written with the help of the AI assistant Claude (Anthropic) and then run, tested and reviewed by the team. Translations other than English and Ukrainian are machine made. No AI-generated images or video are used; photos are real NASA photos. The game does not use NASA logos or branding.
+- **Children:** no names, voices or faces of anyone under 18 are in the game or the submission. The player picks a nickname (random by default); nothing is sent to a server, progress stays in the browser.
+- **Cite every source** on the form, even if it is open (see `docs/SUBMISSION.md`).
+
+## 13. Communication delay (Mars)
+
+The challenge lists communication delay as one of the real constraints. In the game, "Radio Earth" costs 1 block. On the Moon the answer is immediate; on Mars the answer arrives on the **next sol** (a message needs minutes each way, see the NASA HRP source), so the player has to plan ahead. Implemented in `sim/engine.ts` (`State.help`, chain keys `radio_sent` / `radio_arrived`), covered by `tests/sim.test.ts`.

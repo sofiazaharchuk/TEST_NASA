@@ -2,7 +2,7 @@
 export interface Flare { id: string; classType: string; beginTime: string; peakTime?: string }
 export type Weather = "calm" | "minor" | "strong";
 export type Source = "live" | "archive" | "none";
-export interface Result { source: Source; flares: Flare[]; fetchedAt?: string | null; error?: string }
+export interface Result { source: Source; flares: Flare[]; fetchedAt?: string | null; error?: string; builtin?: boolean }
 interface Archive { fetchedAt: string | null; events: unknown[] }
 interface KV { getItem(k: string): string | null; setItem(k: string, v: string): void }
 
@@ -28,24 +28,35 @@ const day = (n: number, now: number) => new Date(now - n * 864e5).toISOString().
  * Order: fresh cache (under 30 min, saves the API limit) -> live request -> older cache -> bundled archive -> none.
  * The `source` is always honest: "live" only for data fetched from NASA in the last 30 minutes.
  */
-export async function loadFlares(o: { days?: number; key?: string; fetcher?: typeof fetch; archive?: Archive; timeoutMs?: number; storage?: KV; now?: number } = {}): Promise<Result> {
-  const { days = 30, key = "DEMO_KEY", fetcher = fetch, archive, timeoutMs = 15000, storage, now = Date.now() } = o;
+export async function loadFlares(o: { days?: number; key?: string; fetcher?: typeof fetch; archive?: Archive; fallback?: Archive; timeoutMs?: number; storage?: KV; now?: number } = {}): Promise<Result> {
+  const { days = 30, fetcher = fetch, archive, fallback, timeoutMs = 15000, storage, now = Date.now() } = o;
+  const key = o.key?.trim() || "DEMO_KEY"; // an empty VITE_NASA_API_KEY in .env must not break the request
   const cached = readCache(storage), iso = (t: number) => new Date(t).toISOString();
   if (cached && now - cached.savedAt < FRESH_MS) return { source: "live", flares: cached.flares, fetchedAt: iso(cached.savedAt) };
+  // NASA moved DONKI from api.nasa.gov/DONKI to the CCMC server (no key, at most 60 days per request). The old address is kept as a second try.
+  const urls = [`https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=${day(Math.min(days, 59), now)}&endDate=${day(0, now)}`, `https://api.nasa.gov/DONKI/FLR?startDate=${day(days, now)}&endDate=${day(0, now)}&api_key=${key}`];
   try {
-    const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), timeoutMs);
-    const res = await fetcher(`https://api.nasa.gov/DONKI/FLR?startDate=${day(days, now)}&endDate=${day(0, now)}&api_key=${key}`, { signal: ctl.signal });
-    clearTimeout(timer);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
-    const flares = parseFlares(text.trim() ? JSON.parse(text) : []); // DONKI answers with an empty body when there are no events
+    let flares: Flare[] | null = null, last: unknown;
+    for (const url of urls) {
+      const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), timeoutMs);
+      try {
+        const res = await fetcher(url, { signal: ctl.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+        flares = parseFlares(text.trim() ? JSON.parse(text) : []); // DONKI answers with an empty body when there are no events
+        break;
+      } catch (e) { last = e; } finally { clearTimeout(timer); }
+    }
+    if (!flares) throw last;
     try { storage?.setItem(CACHE_KEY, JSON.stringify({ savedAt: now, flares })); } catch { /* storage full or blocked */ }
     return { source: "live", flares, fetchedAt: iso(now) };
   } catch (err) {
     const error = err instanceof Error ? err.message : String(err);
     console.warn("[DONKI] live request failed:", error);
     if (cached) return { source: "archive", flares: cached.flares, fetchedAt: iso(cached.savedAt), error };
-    const flares = parseFlares(archive?.events);
-    return flares.length ? { source: "archive", flares, fetchedAt: archive?.fetchedAt, error } : { source: "none", flares: [], error };
+    const saved = parseFlares(archive?.events);
+    if (saved.length) return { source: "archive", flares: saved, fetchedAt: archive?.fetchedAt, error };
+    const known = parseFlares(fallback?.events); // last resort: a built-in list of famous real flares, so the card is never empty
+    return known.length ? { source: "archive", flares: known, fetchedAt: fallback?.fetchedAt, error, builtin: true } : { source: "none", flares: [], error };
   }
 }

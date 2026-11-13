@@ -1,13 +1,6 @@
-// Unverified sources: confirm the exact NASA page before showing these facts in the game.
+// Sources. Entries marked verify: true still need a human check of the exact page before submission.
 export const EXTRA_SOURCES = [
   { id: "moon-facts", label: "NASA Science: Moon facts", url: "https://science.nasa.gov/moon/facts/", verify: true },
-  { id: "veggie", label: "NASA: Veggie plant growth on the space station", url: "https://www.nasa.gov/", verify: true },
-  { id: "eclss", label: "NASA: ISS life support and water recovery", url: "https://www.nasa.gov/", verify: true },
-  { id: "mars-facts", label: "NASA Science: Mars facts", url: "https://science.nasa.gov/mars/facts/", verify: true },
-  { id: "mars-dust", label: "NASA Science: Mars (dust storms, dust devils, rovers)", url: "https://science.nasa.gov/mars/", verify: true },
-  { id: "hrp-radiation", label: "NASA HRP: Space radiation hazard", url: "https://www.nasa.gov/hrp/hazard-space-radiation/", verify: true },
-  { id: "artemis", label: "NASA: Artemis program", url: "https://www.nasa.gov/humans-in-space/artemis/", verify: true },
-  { id: "apollo", label: "NASA: Apollo program", url: "https://www.nasa.gov/apollo/", verify: true },
-  { id: "iss", label: "NASA: International Space Station", url: "https://www.nasa.gov/international-space-station/", verify: true },
-  { id: "sun-facts", label: "NASA Science: Sun facts", url: "https://science.nasa.gov/sun/facts/", verify: true },
+  { id: "veggie", label: "NASA: Veggie plant growth system activated on the space station", url: "https://www.nasa.gov/missions/station/veggie-plant-growth-system-activated-on-international-space-station" },
+  { id: "eclss", label: "NASA: ISS Environmental Control and Life Support System (ECLSS) fact sheet", url: "https://www.nasa.gov/wp-content/uploads/2025/08/g-657270-59-hp-environmental-control-and-life-support-system-eclss.pdf" },
 ] as const;

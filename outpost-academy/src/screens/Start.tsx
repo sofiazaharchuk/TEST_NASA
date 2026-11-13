@@ -13,7 +13,7 @@ export default function Start() {
   const { t } = useTranslation();
   const { profile, setProfile, go } = useStore();
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div className="grid gap-6 md:grid-cols-2">
       <div className="on-photo relative min-h-72 overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,.5),transparent_55%),radial-gradient(circle_at_80%_90%,rgba(6,182,212,.35),transparent_50%)]">
         <Slideshow />
         <div className="relative p-6">

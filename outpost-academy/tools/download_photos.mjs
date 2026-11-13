@@ -15,6 +15,7 @@ const THEMES = {
   dsn: "Deep Space Network antenna Goldstone",
   aurora: "aurora seen from International Space Station",
   artemis: "Artemis lunar lander astronauts moon surface",
+  mars_dust: "Mars dust storm",
   solar_panels: "International Space Station solar arrays",
 };
 mkdirSync("public/photos", { recursive: true });

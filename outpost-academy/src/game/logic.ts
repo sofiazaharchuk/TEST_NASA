@@ -25,16 +25,16 @@ export function taskDone(t: Task, s: State): boolean {
 }
 export const projectedShield = (s: State, a: Alloc) => Math.min(100, s.stock.shield + 15 * (a.shield ?? 0));
 
-export function statusFor(r: Res, s: State, a: Alloc, w: Weather = "minor", world: "moon" | "mars" = "moon"): Status {
+export function statusFor(r: Res, s: State, a: Alloc, w: Weather = "minor"): Status {
   if (r === "air") return (a.air ?? 0) >= 2 ? (s.stock.air < 40 ? "warn" : "ok") : "danger";
   const v = r === "shield" ? projectedShield(s, a) : s.stock[r];
-  const [hi, lo] = r === "shield" ? stormThresholds(w, world) : [40, 15];
+  const [hi, lo] = r === "shield" ? stormThresholds(w) : [40, 15];
   return v >= hi ? "ok" : v >= lo ? "warn" : "danger";
 }
 export function stormInfo(l: Level, s: State) {
   return { warn: l.events.some(e => e.type === "storm" && e.warn === s.day), hit: l.events.some(e => e.type === "storm" && e.day === s.day) };
 }
-const PRIORITY = ["storm_weak_shield", "air_empty", "food_short", "water_short", "air_short", "micro_hit", "dust_cut_power", "mars_global", "mars_dusty", "mars_cold", "radio_used", "drone_used", "mars_devil", "science_air_cost", "clean_air_cost", "battery_full_wasted", "storm_ok"];
+const PRIORITY = ["storm_weak_shield", "air_empty", "food_short", "water_short", "air_short", "micro_hit", "dust_cut_power", "radio_arrived", "radio_sent", "radio_used", "drone_used", "science_air_cost", "clean_air_cost", "battery_full_wasted", "storm_ok"];
 /** What the player should be warned about today: an event tomorrow (warn) or today. */
 export function forecast(l: Level, s: State): { type: "storm" | "dust" | "micro"; today: boolean } | null {
   const e = l.events.find(x => x.day === s.day || x.warn === s.day);
@@ -61,7 +61,7 @@ const A = ["Brave", "Swift", "Bright", "Calm", "Bold", "Lucky"], N = ["Comet", "
 export const randomNick = (r = Math.random) => `${A[Math.floor(r() * A.length)]} ${N[Math.floor(r() * N.length)]} ${Math.floor(r() * 90 + 10)}`;
 
 /** Stickers are derived from saved progress (nothing extra to store). `won[id]` is set when a level is completed. */
-export const BADGE_IDS = ["first_flight", "night_owl", "storm_survivor", "gardener", "water_keeper", "zero_waste", "scientist", "mars_pioneer", "dust_rider", "commander"] as const;
+export const BADGE_IDS = ["first_flight", "night_owl", "storm_survivor", "gardener", "water_keeper", "zero_waste", "scientist", "commander", "mars_pioneer"] as const;
 export function badgesOf(p: Progress): { id: (typeof BADGE_IDS)[number]; earned: boolean }[] {
   const won = p.won ?? {}, ids = Object.keys(won).filter(k => won[k]), st = (id: string) => p.stars[id];
   const earned: Record<(typeof BADGE_IDS)[number], boolean> = {
@@ -72,9 +72,8 @@ export function badgesOf(p: Progress): { id: (typeof BADGE_IDS)[number]; earned:
     water_keeper: !!won.thirsty_base,
     zero_waste: ids.some(id => st(id)?.smart === 3),
     scientist: ids.some(id => st(id)?.curious === 3),
-    mars_pioneer: !!won.mars_landing,
-    dust_rider: !!won.mars_global,
-    commander: LEVELS.every(l => won[l.id]),
+    commander: LEVELS.filter(l => l.world === "moon").every(l => won[l.id]),
+    mars_pioneer: LEVELS.some(l => l.world === "mars" && won[l.id]),
   };
   return BADGE_IDS.map(id => ({ id, earned: earned[id] }));
 }

@@ -1,22 +1,21 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
-import { Heart, FlaskConical, ShieldPlus, Bot, AlertTriangle, ArrowRight, Info, Gamepad2, Radio, Zap, Shield, Wind, Moon, Sun, ArrowUp, ArrowDown, Minus, Users, Sparkles, HeartPulse, CheckCircle2, Circle, Thermometer } from "lucide-react";
+import { Heart, FlaskConical, ShieldPlus, Bot, AlertTriangle, ArrowRight, Info, Gamepad2, Radio, Zap, Shield, Wind, Moon, Sun, ArrowUp, ArrowDown, Minus, Users, Sparkles, HeartPulse, CheckCircle2, Circle } from "lucide-react";
 import { LEVELS } from "../data/levels.ts";
 import { LEVEL_THEME } from "../data/themes.ts";
 import { useStore } from "../store.ts";
 import { DECISIONS } from "../game/decisions.ts";
 import { blocksLeft, forecast, projectedShield, statusFor, taskDone } from "../game/logic.ts";
-import { blocksToday, skyAt, stormThresholds } from "../sim/engine.ts";
+import { blocksToday, stormThresholds } from "../sim/engine.ts";
 import { ResourceCard } from "../ui/ResourceCard.tsx";
 import { CoPilot, type Q } from "../ui/CoPilot.tsx";
 import { WeatherFx } from "../ui/WeatherFx.tsx";
 import { MiniGame } from "../ui/MiniGames.tsx";
 import { Photo } from "../ui/Photo.tsx";
-import { SKY_ICON, SKY_TONE } from "../ui/skyIcons.ts";
 import { Gauge } from "../ui/Gauge.tsx";
 import { btnPrimary, btnGhost, glass } from "../ui/bits.tsx";
-import type { Level, Res, Sky, State } from "../sim/types.ts";
+import type { Level, Res, State } from "../sim/types.ts";
 
 const HINT: Record<string, string> = { air: "airHint", shield: "shieldHint", food: "foodHint", water: "waterHint" };
 
@@ -29,10 +28,8 @@ export default function Game() {
   const left = blocksLeft(l, g, alloc, acts), total = blocksToday(l, g);
   const bat = Math.min(l.cap, Math.max(0, left)), waste = Math.max(0, left - l.cap), shield = projectedShield(g, alloc);
   const airLow = (alloc.air ?? 0) < 2, stormSoon = fc?.type === "storm" && !fc.today;
-  const sky = skyAt(l, g.day), skyNext = g.day < l.days ? skyAt(l, g.day + 1) : null, isMars = l.world === "mars";
-  const prep = isMars && skyNext && skyNext !== "clear" ? t(`sky.prepare.${skyNext}`) : null;
   const hint = airLow ? t("game.hint.air") : waste > 0 ? t("game.hint.wasted", { n: waste })
-    : stormSoon && shield < stormThresholds(weather, l.world)[0] ? t("game.hint.shieldLow", { v: shield }) : stormSoon ? t("game.hint.stormWarn") : prep ?? t("game.hint.ok");
+    : stormSoon && shield < stormThresholds(weather)[0] ? t("game.hint.shieldLow", { v: shield }) : stormSoon ? t("game.hint.stormWarn") : t("game.hint.ok");
   const q: Q = airLow ? "air" : waste > 0 ? "waste" : stormSoon ? "storm" : fc?.type === "micro" && !fc.today ? "micro" : "ok";
   const showCoach = levelIdx === 0 || g.day === 1;
   const coach = [{ done: (alloc.air ?? 0) >= 2, text: t("coach.air") }, { done: (alloc.shield ?? 0) > 0, text: t("coach.shield") }, { done: false, text: t("coach.end") }];
@@ -40,7 +37,7 @@ export default function Game() {
   const value = (r: Res) => (r === "shield" ? shield : g.stock[r]);
   const night = l.income[g.day - 1] === 0, base = LEVEL_THEME[l.id];
   // The big picture follows what is happening: storm -> the Sun, lunar night -> Earth in the dark sky.
-  const heroTheme = fc?.type === "storm" ? "solar" : night ? (base === "earth" ? "moon" : "earth") : base;
+  const heroTheme = fc?.type === "storm" ? "solar" : l.world === "mars" && (fc?.type === "dust" || weather === "strong") ? "mars_dust" : night ? (base === "earth" ? "moon" : "earth") : base;
   const vitals = l.res.filter(r => r !== "power");
   const step = showCoach && nextIdx >= 0 ? coach[nextIdx].text : notice ? t(notice) : hint;
   return (
@@ -48,7 +45,7 @@ export default function Game() {
       {/* 1. Where am I: slim mission bar */}
       <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-white/10 bg-slate-900/70 px-4 py-3">
         <div className="min-w-0 flex-1">
-          <p className="truncate text-xs font-bold uppercase tracking-wider text-cyan-300">{t(`world.${l.world}`)} · {t(`levels.${l.id}.name`)}</p>
+          <p className="truncate text-xs font-bold uppercase tracking-wider text-cyan-300">{t(`levels.${l.id}.name`)}</p>
           <h1 className="font-head text-xl font-extrabold sm:text-2xl">{t("game.day", { day: g.day, total: l.days })}</h1>
           <div className="mt-1.5 flex max-w-xs gap-1" aria-hidden>{Array.from({ length: l.days }, (_, i) => <span key={i} className={`h-1.5 flex-1 rounded-full ${i < g.day ? "bg-cyan-400" : "bg-white/20"}`} />)}</div>
         </div>
@@ -58,23 +55,22 @@ export default function Game() {
         <button className={`grid h-11 w-11 place-items-center rounded-xl border bg-slate-950/50 hover:bg-white/10 ${settings.together ? "border-indigo-400" : "border-white/20"}`} aria-pressed={settings.together} aria-label={t("common.together")} title={t("common.together")} onClick={() => setSettings({ together: !settings.together })}><Users aria-hidden /></button>
         <button className="grid h-11 w-11 place-items-center rounded-xl border border-white/20 bg-slate-950/50 hover:bg-white/10" aria-pressed={help} aria-label={t("game.help")} title={t("game.help")} onClick={() => setHelp(!help)}><Info aria-hidden /></button>
       </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
         {/* LEFT: look here first. The picture, the vitals, then ONE instruction */}
         <div className="min-w-0 space-y-3 lg:sticky lg:top-4">
-          <div className="on-photo hero-photo relative h-72 overflow-hidden rounded-3xl border border-white/10 sm:h-96 lg:h-[30rem]" role="group" aria-label={t("scene.label", { s: Math.round(shield), a: Math.round(g.stock.air), h: g.hearts })}>
+          <div className="on-photo relative h-72 overflow-hidden rounded-3xl border border-white/10 sm:h-96 lg:h-[30rem]" role="group" aria-label={t("scene.label", { s: Math.round(shield), a: Math.round(g.stock.air), h: g.hearts })}>
             <AnimatePresence initial={false}>
               <motion.div key={heroTheme} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.9 }}>
-                <Photo theme={heroTheme} className="absolute inset-0" overlay kenburns />
+                <Photo theme={heroTheme} fallbackTheme={base} className="absolute inset-0" overlay kenburns />
               </motion.div>
             </AnimatePresence>
-            <WeatherFx sky={isMars ? sky : "clear"} kind={fc?.type ?? null} today={!!fc?.today} night={night} shieldOk={shield >= stormThresholds(weather, l.world)[0]} animate={!settings.reduceMotion} />
+            <WeatherFx kind={fc?.type ?? (l.world === "mars" && weather !== "calm" ? "dust" : null)} today={!!fc?.today} night={night} shieldOk={shield >= stormThresholds(weather)[0]} animate={!settings.reduceMotion} />
             {fc && <span className={`absolute left-3 top-3 inline-flex max-w-[80%] items-center gap-1.5 rounded-full bg-amber-400 px-3 py-1.5 text-sm font-bold text-slate-950 shadow-lg ${fc.today ? "animate-pulse" : ""}`}><AlertTriangle aria-hidden className="h-4 w-4 shrink-0" />{t(`game.forecast.${fc.type}.${fc.today ? "today" : "tomorrow"}`)}</span>}
             <span className="absolute bottom-[5.75rem] left-3 inline-flex items-center gap-1.5 rounded-full bg-slate-950/70 px-3 py-1 text-xs backdrop-blur sm:bottom-[4.75rem] sm:text-sm">{night ? <><Moon aria-hidden className="h-4 w-4 text-slate-300" />{t("scene.night")}</> : <><Sun aria-hidden className="h-4 w-4 text-amber-300" />{t("scene.day")}</>}</span>
             <div className="absolute inset-x-0 bottom-0 grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
-              {vitals.map(r => <Gauge key={r} value={value(r)} label={t(`game.${r}`)} status={statusFor(r, g, alloc, weather, l.world)} />)}
+              {vitals.map(r => <Gauge key={r} value={value(r)} label={t(`game.${r}`)} status={statusFor(r, g, alloc, weather)} />)}
             </div>
           </div>
-          {isMars && <SkyCard today={sky} tomorrow={skyNext} />}
           <div className="flex items-center gap-3 rounded-2xl border border-cyan-400/50 bg-gradient-to-r from-cyan-500/20 to-blue-600/20 p-4 shadow-[0_0_30px_rgba(6,182,212,.25)]" aria-live="polite">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-cyan-400/20"><Bot aria-hidden className="h-7 w-7 text-cyan-200" /></span>
             <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-wider text-cyan-300">{t("game.step")}</p><p className="text-lg font-semibold leading-snug sm:text-xl">{step}</p></div>
@@ -91,8 +87,9 @@ export default function Game() {
             {l.tasks.map(k => { const ok = taskDone(k, g); return <li key={k.id} className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm ${ok ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-200" : "border-white/10 bg-white/5 text-slate-200"}`}>{ok ? <CheckCircle2 aria-hidden className="h-4 w-4" /> : <Circle aria-hidden className="h-4 w-4 text-slate-500" />}{t(`tasks.${k.kind}`, { n: k.n })}</li>; })}
           </ul>
           <div className="flex flex-wrap gap-2 empty:hidden">
+            {l.world === "mars" && <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-400/15 px-3 py-1.5 text-sm text-orange-200"><Wind aria-hidden className="h-4 w-4" />{t("marsWeather.chip", { w: t(`marsWeather.${weather}.name`) })}</span>}
             {replay && <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-400/15 px-3 py-1.5 text-sm text-violet-200"><Zap aria-hidden className="h-4 w-4" />{t("replay.chip", { c: replay.split(" · ")[0], d: replay.split(" · ")[1] })}</span>}
-            {!replay && weatherSrc && l.events.some(e => e.type === "storm") && <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-400/10 px-3 py-1.5 text-sm text-cyan-300">{t("spaceWeather.chip", { w: t(`spaceWeather.name.${weather}`), src: t(`spaceWeather.${weatherSrc}`) })}</span>}
+            {!replay && l.world === "moon" && weatherSrc && l.events.some(e => e.type === "storm") && <span className="inline-flex items-center gap-1.5 rounded-full bg-cyan-400/10 px-3 py-1.5 text-sm text-cyan-300">{t("spaceWeather.chip", { w: t(`spaceWeather.name.${weather}`), src: t(`spaceWeather.${weatherSrc}`) })}</span>}
           </div>
           {settings.together && <CoPilot levelId={l.id} q={q} />}
         </div>
@@ -105,10 +102,10 @@ export default function Game() {
             </div>
           </section>
           <h2 className="px-1 pt-2 font-head text-lg font-extrabold">{t("game.machines")}</h2>
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid gap-3">
             {vitals.map(r => (
               <ResourceCard key={r} id={r} label={t(`game.${r}`)} hint={t(`game.${HINT[r]}`)} value={value(r)} blocks={alloc[r] ?? 0}
-                status={statusFor(r, g, alloc, weather, l.world)} statusText={t(`game.status.${statusFor(r, g, alloc, weather, l.world)}`)}
+                status={statusFor(r, g, alloc, weather)} statusText={t(`game.status.${statusFor(r, g, alloc, weather)}`)}
                 lessLabel={t("game.less", { name: t(`game.${r}`) })} moreLabel={t("game.more", { name: t(`game.${r}`) })} onChange={d => adjust(r, d)} />
             ))}
             <ResourceCard id="power" label={t("game.battery")} hint={t("game.batteryHint", { cap: l.cap })} value={Math.round((bat / l.cap) * 100)}
@@ -116,11 +113,11 @@ export default function Game() {
           </div>
           <h2 className="px-1 pt-2 font-head text-lg font-extrabold">{t("game.extra")}</h2>
           <p className="-mt-2 px-1 text-sm text-slate-300">{t("game.extraHint")}</p>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {!miniDone && <button onClick={openMini} className="inline-flex min-h-14 w-full items-center gap-2 rounded-2xl border border-amber-400/50 bg-amber-400/15 px-4 text-left font-semibold text-amber-100 transition-all hover:-translate-y-0.5"><Gamepad2 aria-hidden />{t("mini.play")}</button>}
             {l.science && <Toggle on={acts.science} onClick={() => toggle("science")} icon={<FlaskConical aria-hidden />} text={t("game.science")} />}
             {l.science && l.extras.includes("drone") && <Toggle on={acts.drone} onClick={() => toggle("drone")} icon={<Bot aria-hidden />} text={t("game.drone")} />}
-            {l.extras.includes("radio") && <Toggle on={acts.radio} onClick={() => toggle("radio")} icon={<Radio aria-hidden />} text={t("game.radio")} />}
+            {l.extras.includes("radio") && <Toggle on={acts.radio} onClick={() => toggle("radio")} icon={<Radio aria-hidden />} text={t(l.world === "mars" ? "game.radioMars" : "game.radio")} />}
             {l.extras.includes("clean") && <Toggle on={acts.clean} onClick={() => toggle("clean")} icon={<Sparkles aria-hidden />} text={t("game.clean")} />}
             {l.extras.includes("rest") && <Toggle on={acts.rest} onClick={() => toggle("rest")} icon={<HeartPulse aria-hidden />} text={t("game.rest")} />}
             {fc?.type === "storm" && fc.today && <Toggle on={acts.shelter} onClick={() => toggle("shelter")} icon={<ShieldPlus aria-hidden />} text={t("game.shelter")} />}
@@ -195,7 +192,7 @@ function DecisionModal({ id, onPick }: { id: string; onPick: (p: "a" | "b") => v
         <h2 id="dec-h" className="font-head text-2xl font-extrabold">{t("decision.title")}</h2>
         <p className="mt-2 text-lg">{t(`decision.${id}.text`)}</p>
         <p className="text-sm text-slate-300">{t("decision.pick")}</p>
-        <div className="mt-3 grid grid-cols-1 gap-3">
+        <div className="mt-3 grid gap-3">
           {(["a", "b"] as const).map(k => (
             <button key={k} autoFocus={k === "a"} onClick={() => onPick(k)} className="min-h-14 rounded-2xl border border-white/20 bg-white/5 p-3 text-left hover:bg-white/10">
               <b>{t(`decision.${id}.${k}`)}</b>
@@ -218,28 +215,12 @@ function QuizModal({ id, answer, onAnswer, onClose }: { id: string; answer: numb
       <div role="dialog" aria-modal="true" aria-labelledby="quiz-h" className={`${glass} max-h-[90dvh] overscroll-contain w-full max-w-lg overflow-auto bg-slate-900/95 p-5`}>
         <h2 id="quiz-h" className="font-head text-xl font-extrabold">{t("quiz.title")}</h2>
         <p className="mt-2 text-lg">{t(`quiz.${id}.q`)}</p>
-        <div className="mt-3 grid grid-cols-1 gap-2">
+        <div className="mt-3 grid gap-2">
           {opts.map((o, i) => <button key={i} disabled={pick !== null} onClick={() => choose(i)} className={`min-h-12 rounded-xl border px-3 text-left ${pick === null ? "border-white/20 bg-white/5 hover:bg-white/10" : i === answer ? "border-emerald-400 bg-emerald-400/10" : i === pick ? "border-rose-400 bg-rose-400/10" : "border-white/10 opacity-60"}`}>{o}{pick !== null && i === answer ? " ✓" : ""}</button>)}
         </div>
         {pick !== null && <div aria-live="polite" className="mt-3 space-y-2"><p className="font-semibold">{pick === answer ? t("quiz.right") : t("quiz.wrong")}</p><p className="text-slate-200">{t(`quiz.${id}.why`)}</p><button autoFocus className={`${btnPrimary} w-full`} onClick={onClose}>{t("quiz.next")}<ArrowRight aria-hidden /></button></div>}
         {pick === null && <button className={`${btnGhost} mt-3`} onClick={onClose}>{t("common.next")}</button>}
       </div>
     </div>
-  );
-}
-
-/** Mars weather: what the sky does today and tomorrow, and what that means for the energy. Icon + words, never colour alone. */
-function SkyCard({ today, tomorrow }: { today: Sky; tomorrow: Sky | null }) {
-  const { t } = useTranslation(), Icon = SKY_ICON[today], Next = tomorrow ? SKY_ICON[tomorrow] : null;
-  return (
-    <section className={`rounded-2xl border p-4 ${SKY_TONE[today]}`} aria-label={t("sky.title")}>
-      <h2 className="flex items-center gap-2 font-head text-lg font-extrabold"><Thermometer aria-hidden className="h-5 w-5 shrink-0 text-orange-300" />{t("sky.title")}</h2>
-      <div className="mt-2 flex items-start gap-3">
-        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-white/10"><Icon aria-hidden className="h-7 w-7" /></span>
-        <div className="min-w-0"><p className="text-xs font-bold uppercase tracking-wider text-slate-300">{t("sky.today")}</p><p className="font-head text-xl font-extrabold leading-tight">{t(`sky.${today}.name`)}</p><p className="text-slate-100">{t(`sky.${today}.effect`)}</p></div>
-      </div>
-      {tomorrow && Next && <p className="mt-3 flex items-start gap-2 rounded-xl bg-white/10 p-2 text-sm"><Next aria-hidden className="mt-0.5 h-4 w-4 shrink-0" /><span className="min-w-0"><b>{t("sky.tomorrow")}:</b> {t(`sky.${tomorrow}.name`)}. {t(`sky.${tomorrow}.effect`)}</span></p>}
-      <p className="mt-2 text-xs text-slate-300">{t("sky.avg")}</p>
-    </section>
   );
 }

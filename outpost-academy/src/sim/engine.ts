@@ -1,29 +1,18 @@
-import type { Level, Move, Res, Sky, State } from "./types.ts";
+import type { Level, Move, Res, State } from "./types.ts";
 const c = (n: number) => Math.max(0, Math.min(100, Math.round(n)));
 export type Weather = "calm" | "minor" | "strong";
 /** [safe, hurt] shield thresholds: a stronger real storm demands a stronger shield. */
-export const stormThresholds = (w: Weather, world: "moon" | "mars" = "moon"): [number, number] => {
-  const [hi, lo] = w === "strong" ? [85, 55] : w === "calm" ? [55, 25] : [70, 40];
-  return world === "mars" ? [Math.min(95, hi + 5), lo + 5] : [hi, lo]; // Mars: thin air and no global magnetic field = less natural protection
-};
-/** Weather of a day. Levels without a `sky` list always have a clear sky. */
-export const skyAt = (l: Level, day: number): Sky => l.sky?.[day - 1] ?? "clear";
-/** Energy blocks the Sun gives on a day: the base income changed by dust events and by the Mars sky. */
-export function incomeAt(l: Level, day: number) {
-  const base = l.income[day - 1] ?? 0, ev = l.events.find(e => e.day === day);
-  let inc = ev?.type === "dust" ? Math.floor(base / 2) : base;
-  const sky = skyAt(l, day);
-  if (sky === "cold") inc = Math.max(0, inc - 1); // heaters keep part of the energy
-  else if (sky === "dusty") inc = Math.floor(inc / 2); // dust in the air dims the Sun
-  else if (sky === "global") inc = Math.floor(inc / 4); // global dust storm: the Sun is almost gone
-  return inc;
-}
+export const stormThresholds = (w: Weather): [number, number] => (w === "strong" ? [85, 55] : w === "calm" ? [55, 25] : [70, 40]);
 
-export function newGame(_l: Level): State {
-  return { day: 1, stock: { air: 70, power: 2, shield: 50, food: 60, water: 60 }, hearts: 4, science: 0, wasted: 0, bonus: 0, cleaned: 0, rested: 0, chain: [], over: null };
+export function newGame(l: Level, w?: Weather): State {
+  const incomeCut = l.world === "mars" ? (w === "strong" ? 2 : w === "minor" ? 1 : 0) : 0;
+  return { incomeCut, day: 1, stock: { air: 70, power: 2, shield: 50, food: 60, water: 60 }, hearts: 4, science: 0, wasted: 0, bonus: 0, cleaned: 0, rested: 0, chain: [], over: null };
 }
 export function blocksToday(l: Level, s: State) {
-  return incomeAt(l, s.day) + s.stock.power + s.bonus;
+  const ev = l.events.find(e => e.day === s.day);
+  const base = Math.max(0, l.income[s.day - 1] - (s.incomeCut ?? 0));
+  const inc = ev?.type === "dust" ? Math.floor(base / 2) : base;
+  return inc + s.stock.power + s.bonus;
 }
 export function playDay(l: Level, s0: State, m: Move, weather: Weather = "minor"): State {
   if (s0.over) return s0;
@@ -38,11 +27,11 @@ export function playDay(l: Level, s0: State, m: Move, weather: Weather = "minor"
   const left = avail - used;
   s.stock.power = Math.min(l.cap, left);
   s.bonus = 0;
+  const weakest = () => { const rs = (l.res as Res[]).filter(r => r !== "power"); return rs.reduce((x, y) => (s.stock[y] < s.stock[x] ? y : x)); };
+  const helpArrives = !!s.help; // the answer to yesterday's call from Mars reaches the base now
+  s.help = false;
   if (left > l.cap) { s.wasted += left - l.cap; log("battery_full_wasted"); }
   if (l.events.find(e => e.day === s.day)?.type === "dust") log("dust_cut_power");
-  const sky = skyAt(l, s.day);
-  if (sky === "cold") log("mars_cold"); else if (sky === "dusty") log("mars_dusty"); else if (sky === "global") log("mars_global");
-  else if (sky === "devil") { s.bonus += 2; log("mars_devil"); } // a dust devil wipes the panels clean: +2 blocks tomorrow (really happened to the Spirit and Opportunity rovers)
 
   let air = a.air ?? 0;
   if (has("water") && s.stock.water < 10) { air = Math.max(0, air - 1); log("water_short"); }
@@ -50,21 +39,21 @@ export function playDay(l: Level, s0: State, m: Move, weather: Weather = "minor"
   if (air >= need) s.stock.air = c(s.stock.air + 5); else { s.stock.air = c(s.stock.air - (need - air) * 12); log("air_short"); }
   if (m.science && l.science) { s.stock.air = c(s.stock.air - 10); s.science += 1; log("science_air_cost"); }
   if (drone) { s.science += 1; log("drone_used"); } // 2 blocks, no air: costs more energy than a walk but is safe
-  if (clean) { s.stock.air = c(s.stock.air - 8); s.bonus += 2; s.cleaned += 1; log("clean_air_cost"); }
+  if (clean) { s.stock.air = c(s.stock.air - 8); s.bonus = 2; s.cleaned += 1; log("clean_air_cost"); }
   if (rest) { s.hearts += 1; s.rested += 1; }
   s.stock.shield = c(s.stock.shield + 15 * (a.shield ?? 0));
-  if (has("food")) { s.stock.food = c(s.stock.food - 8 - (sky === "cold" ? 4 : 0) + 10 * (a.food ?? 0)); if (s.stock.food <= 0) { s.hearts -= 1; log("food_short"); } }
+  if (has("food")) { s.stock.food = c(s.stock.food - 8 + 10 * (a.food ?? 0)); if (s.stock.food <= 0) { s.hearts -= 1; log("food_short"); } }
   if (has("water")) { s.stock.water = c(s.stock.water - 6 + 8 * (a.water ?? 0) - (a.food ? 3 : 0)); if (s.stock.water <= 0) { s.hearts -= 1; log("water_short"); } }
-  if (radio) { // Earth helps the weakest system (+8), but the call costs a block
-    const rs = (l.res as Res[]).filter(r => r !== "power"), low = rs.reduce((x, y) => (s.stock[y] < s.stock[x] ? y : x));
-    s.stock[low] = c(s.stock[low] + 8); log("radio_used");
+  if (helpArrives) { const low = weakest(); s.stock[low] = c(s.stock[low] + 8); log("radio_arrived"); }
+  if (radio) { // Earth helps the weakest system (+8), but the call costs a block. From Mars the message needs minutes each way, so the answer comes next sol.
+    if (l.world === "mars") { s.help = true; log("radio_sent"); } else { const low = weakest(); s.stock[low] = c(s.stock[low] + 8); log("radio_used"); }
   }
   if (s.stock.air <= 0) { s.hearts -= 1; log("air_empty"); }
 
   const ev = l.events.find(e => e.day === s.day);
   if (ev?.type === "micro") { s.stock.shield = c(s.stock.shield - 20); log("micro_hit"); }
   if (ev?.type === "storm") {
-    const [hi, lo] = stormThresholds(weather, l.world);
+    const [hi, lo] = stormThresholds(l.world === "mars" ? "minor" : weather); // on Mars the weather is dust, not flares
     let loss = s.stock.shield >= hi ? 0 : s.stock.shield >= lo ? 1 : 2;
     if (m.shelter) loss = Math.max(0, loss - 1);
     s.hearts -= loss; log(loss ? "storm_weak_shield" : "storm_ok");

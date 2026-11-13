@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { LEVELS, ACTIONS } from "../src/data/levels.ts";
-import { newGame, playDay, stars, blocksToday } from "../src/sim/engine.ts";
-import { chainSteps } from "../src/game/logic.ts";
+import { newGame, playDay, stars } from "../src/sim/engine.ts";
 const L = (id: string) => LEVELS.find(l => l.id === id)!;
 const run = (id: string, f: (day: number, avail: number) => any) => {
   const l = L(id); let s = newGame(l);
@@ -27,6 +26,7 @@ assert.ok(sh.hearts >= careless.hearts);
 // 6. Deterministic and scorable
 assert.deepEqual(run("storm_watch", () => ({ alloc: { air: 2 } })), careless);
 // 7. New actions: cleaning pays off tomorrow (net +1 block) but costs air; rest heals a heart for one block
+import { blocksToday } from "../src/sim/engine.ts";
 const f1 = L("first_day"), base = newGame(f1);
 const noClean = playDay(f1, base, { alloc: { air: 2 } }), cleaned = playDay(f1, base, { alloc: { air: 2 }, clean: true });
 assert.equal(blocksToday(f1, cleaned) - blocksToday(f1, noClean), 2 - 0, "cleaning gives +2 blocks tomorrow (battery already full in both cases)");
@@ -56,33 +56,44 @@ console.log("drone tests passed");
   assert.ok(call.chain.some(x => x.key === "radio_used"));
   assert.equal(playDay(LEVELS[0], newGame(LEVELS[0]), { alloc: { air: 2 }, radio: true }).chain.some(x => x.key === "radio_used"), false, "level 1 has no radio");
 }
+// Mars: communication delay. The call is sent today, the help arrives next sol (not today).
+{
+  const l = LEVELS.find(x => x.id === "mars_dust_season")!, s0 = newGame(l);
+  const plain = playDay(l, s0, { alloc: { air: 2 } }), call = playDay(l, s0, { alloc: { air: 2 }, radio: true });
+  assert.equal(call.stock.shield, plain.stock.shield, "no instant help from Mars");
+  assert.ok(call.chain.some(x => x.key === "radio_sent") && !call.chain.some(x => x.key === "radio_used"));
+  const next = playDay(l, call, { alloc: { air: 2 } }), next0 = playDay(l, plain, { alloc: { air: 2 } });
+  assert.equal(next.stock.shield - next0.stock.shield, 8, "help arrives the next sol: the weakest system (shield) gets +8");
+  assert.ok(next.chain.some(x => x.key === "radio_arrived"));
+  assert.equal(next.help, false);
+}
 console.log("radio tests passed");
 
-// 10. Mars weather: the sky changes the energy, and planning for it matters
+// 10. Mars weather: dust takes sunlight away (clear 0, haze -1, global dust storm -2 energy blocks every sol); the Moon is not affected
 {
-  const { incomeAt, skyAt, stormThresholds } = await import("../src/sim/engine.ts");
-  const mars = LEVELS.filter(x => x.world === "mars");
-  assert.ok(mars.length >= 5, "five Mars levels");
-  for (const l of mars) assert.equal(l.sky?.length, l.days, `${l.id}: one sky per day`);
-  const g = LEVELS.find(x => x.id === "mars_global")!;
-  assert.equal(skyAt(LEVELS[0], 1), "clear", "Moon levels always have a clear sky");
-  const clear = incomeAt(g, 1), dusty = incomeAt(g, 3), storm = incomeAt(g, 4);
-  assert.ok(dusty === Math.floor(clear / 2) && storm === Math.floor(clear / 4) && storm < dusty && dusty < clear, "dust dims the Sun, a global storm almost hides it");
-  const cold = LEVELS.find(x => x.id === "mars_cold")!;
-  assert.equal(incomeAt(cold, 1) - incomeAt(cold, 2), 1, "a cold sol costs 1 block (heaters)");
-  assert.deepEqual(stormThresholds("minor", "mars").map((v, i) => v - stormThresholds("minor")[i]), [5, 5], "Mars needs a stronger shield (thin air)");
-  // a dust devil cleans the panels: +2 blocks the next day, and the cause is explained
-  const lan = LEVELS.find(x => x.id === "mars_landing")!;
-  let s = newGame(lan); const base = (x: typeof s) => blocksToday(lan, x);
-  for (let d = 1; d <= 4; d++) s = playDay(lan, s, { alloc: { air: 2 } });
-  const devilDay = playDay(lan, s, { alloc: { air: 2 } });
-  assert.ok(devilDay.chain.some(c => c.key === "mars_devil") && devilDay.bonus >= 2, "dust devil gives a bonus and is explained");
-  // planning beats spending everything: before the global storm, the battery decides who survives
-  const play = (strategy: (day: number, avail: number) => any) => { let st = newGame(g); while (!st.over) st = playDay(g, st, strategy(st.day, blocksToday(g, st))); return st; };
-  const saver = play((d, av) => ({ alloc: { air: 2, food: av >= 3 && d % 3 === 0 ? 1 : 0, water: av >= 3 && d % 3 === 1 ? 1 : 0 } })); // keeps the battery full, spends only what is needed
-  const spender = play((d, av) => ({ alloc: { air: 2, shield: av - 2 } }));
-  assert.ok(spender.over === "early" && saver.over === "success", "saving energy before a global dust storm is the winning plan");
-  assert.ok(spender.chain.some(c => c.key === "mars_global") && chainSteps(spender).length > 0, "the debrief can explain the failure");
-  void base;
+  const m = LEVELS.find(x => x.id === "mars_arrival")!, moon = LEVELS[0];
+  const clear = blocksToday(m, newGame(m, "calm")), haze = blocksToday(m, newGame(m, "minor")), storm = blocksToday(m, newGame(m, "strong"));
+  assert.equal(clear - haze, 1); assert.equal(clear - storm, 2);
+  assert.equal(blocksToday(moon, newGame(moon, "strong")), blocksToday(moon, newGame(moon, "calm")), "Moon income ignores Mars weather");
+  // a dust-storm sol halves what is left
+  const d = { ...newGame(m, "strong"), day: 4 }; assert.equal(blocksToday(m, d), Math.floor((m.income[3] - 2) / 2) + d.stock.power + d.bonus);
+  // the sky really matters: a careful player (air first, then science, shield, battery) finishes every Mars level under every sky,
+  // but completes fewer mission tasks under the global dust storm than under a clear sky
+  const { taskDone } = await import("../src/game/logic.ts");
+  const play = (lv: typeof m, w: "calm" | "minor" | "strong") => {
+    let s = newGame(lv, w);
+    while (!s.over) {
+      const avail = blocksToday(lv, s), air = Math.min(2, avail), alloc: Record<string, number> = { air }; let left = avail - air, science = false;
+      if (left > 0 && s.stock.air > 50 && s.science < 2) { science = true; left--; }
+      if (lv.res.includes("food") && left > 0 && s.stock.food < 80) { alloc.food = 1; left--; }
+      const sh = Math.min(left, s.day > lv.days - 4 ? 2 : 1); if (sh > 0) { alloc.shield = sh; left -= sh; }
+      if (left > 0) alloc.power = left;
+      s = playDay(lv, s, { alloc, science });
+    }
+    return { over: s.over, tasks: lv.tasks.filter(t => taskDone(t, s)).length };
+  };
+  for (const lv of LEVELS.filter(x => x.world === "mars")) for (const w of ["calm", "minor", "strong"] as const) assert.equal(play(lv, w).over, "success", `${lv.id} under ${w}`);
+  const ds = LEVELS.find(x => x.id === "mars_dust_season")!;
+  assert.ok(play(ds, "strong").tasks < play(ds, "calm").tasks, "a dust storm makes the mission harder");
 }
 console.log("mars weather tests passed");

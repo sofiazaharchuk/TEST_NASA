@@ -13,26 +13,14 @@ body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-even
 @keyframes fx-ring { 0% { transform: translate(-50%, -50%) scale(.5); opacity: .9; } 100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; } }
 @keyframes fx-drift { from { transform: translateX(0); } to { transform: translateX(1200px); } }
 @keyframes fx-meteor { from { transform: translate3d(0, 0, 0) rotate(25deg); opacity: 0; } 20% { opacity: 1; } to { transform: translate3d(700px, 300px, 0) rotate(25deg); opacity: 0; } }
-@keyframes fx-frost { from { transform: translate3d(0, -10px, 0); opacity: 0; } 15% { opacity: 1; } to { transform: translate3d(-30px, 320px, 0); opacity: 0; } }
-@keyframes fx-devil { 0% { transform: translateX(-20%) skewX(0deg); } 25% { transform: translateX(120%) skewX(12deg); } 50% { transform: translateX(260%) skewX(-12deg); } 75% { transform: translateX(400%) skewX(12deg); } 100% { transform: translateX(560%) skewX(0deg); } }
 @keyframes fx-confetti { from { transform: translateY(-10vh) rotate(0); opacity: 1; } to { transform: translateY(110vh) rotate(540deg); opacity: .9; } }
 
 /* ---------- Responsive + device polish ---------- */
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; width: 100%; max-width: 100%; overflow-x: hidden; }
-body { min-height: 100dvh; width: 100%; max-width: 100%; padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow-x: clip; -webkit-font-smoothing: antialiased; }
-/* Nothing may be wider than the screen: a too-wide element is what makes a phone zoom out or scroll sideways. */
-#root, main, header { max-width: 100%; min-width: 0; }
-img, svg, video, canvas { max-width: 100%; }
-h1, h2, h3, h4 { overflow-wrap: anywhere; hyphens: auto; }
-p, li, button, a, label, span { overflow-wrap: break-word; }
-/* Small phones: scale the whole interface down a little instead of making people pinch. */
-@media (max-width: 389px) { html { font-size: 93.75%; } }
-@media (max-width: 339px) { html { font-size: 87.5%; } }
-/* Phones held sideways are short: keep the big picture from filling the whole screen. */
-@media (max-height: 500px) and (orientation: landscape) { .hero-photo { height: 11rem !important; } }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { min-height: 100dvh; padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow-x: clip; -webkit-font-smoothing: antialiased; }
 button, a, [role="button"] { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 input, select, textarea { font-size: max(16px, 1rem); } /* 16px+ stops iOS Safari from zooming into fields */
-@media (min-width: 1536px) { html { font-size: 112.5%; } } /* big desktop screens */
+@media (max-width: 359px) { html { font-size: 93.75%; } } /* very small phones (320px) */
 
 /* ---------- Animations (all transform/opacity only = smooth on cheap phones) ---------- */
 @keyframes float { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-4px) rotate(4deg); } }
@@ -60,3 +48,8 @@ input, select, textarea { font-size: max(16px, 1rem); } /* 16px+ stops iOS Safar
   #certificate { position: fixed; left: 50%; top: 50%; width: 90%; transform: translate(-50%, -50%); box-shadow: none; }
   body::before { display: none; }
 }
+
+/* Never let one wide element make the whole page wider than the phone screen (it forces pinch-to-zoom) */
+html, body, #root { max-width: 100%; overflow-x: hidden; overflow-x: clip; }
+main, .grid > * { min-width: 0; }
+img, svg, video, canvas { max-width: 100%; }

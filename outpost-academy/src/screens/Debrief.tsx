@@ -4,7 +4,7 @@ import { Award } from "lucide-react";
 import { FactCard } from "../ui/FactCard.tsx";
 import { Certificate } from "../ui/Certificate.tsx";
 import { motion } from "framer-motion";
-import { ArrowDown, CheckCircle2, Circle, Users, FlaskConical, Heart, ShieldAlert, ShieldCheck, Wind, BatteryFull, SunDim, Droplets, Sprout, Orbit, RefreshCw, Target, Bot, Radio, Copy, ClipboardCheck, Snowflake, CloudFog, Tornado, type LucideIcon } from "lucide-react";
+import { ArrowDown, CheckCircle2, Circle, Users, FlaskConical, Heart, ShieldAlert, ShieldCheck, Wind, BatteryFull, SunDim, Droplets, Sprout, Orbit, RefreshCw, Target, Bot, Radio, Copy, ClipboardCheck, type LucideIcon } from "lucide-react";
 import { LEVELS } from "../data/levels.ts";
 import { LEVEL_THEME } from "../data/themes.ts";
 import { Photo } from "../ui/Photo.tsx";
@@ -17,7 +17,7 @@ import { SourceChip, Stars, btnGhost, btnPrimary, glass } from "../ui/bits.tsx";
 const ICON: Record<string, [LucideIcon, string]> = {
   storm_weak_shield: [ShieldAlert, "shield"], storm_ok: [ShieldCheck, "shield"], air_short: [Wind, "air"], air_empty: [Wind, "air"],
   battery_full_wasted: [BatteryFull, "power"], dust_cut_power: [SunDim, "power"], water_short: [Droplets, "water"],
-  science_air_cost: [FlaskConical, "air"], drone_used: [Bot, "power"], radio_used: [Radio, "power"], clean_air_cost: [Wind, "air"], mars_cold: [Snowflake, "power"], mars_dusty: [CloudFog, "power"], mars_global: [Wind, "power"], mars_devil: [Tornado, "power"], food_short: [Sprout, "food"], micro_hit: [Orbit, "shield"],
+  science_air_cost: [FlaskConical, "air"], drone_used: [Bot, "power"], radio_used: [Radio, "power"], clean_air_cost: [Wind, "air"], food_short: [Sprout, "food"], micro_hit: [Orbit, "shield"],
 };
 export default function Debrief() {
   const { t } = useTranslation();

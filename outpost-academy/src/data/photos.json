@@ -82,5 +82,12 @@
     "credit": "Credit: NASA / MSFC",
     "nasa_id": "0101424",
     "link": "https://images.nasa.gov/details/0101424"
+  },
+  "mars_dust": {
+    "file": "mars_dust.jpg",
+    "title": "2018 Giant Dust Storm on Mars",
+    "credit": "Credit: NASA/JPL-Caltech/MSSS / JPL",
+    "nasa_id": "PIA22519",
+    "link": "https://images.nasa.gov/details/PIA22519"
   }
 }

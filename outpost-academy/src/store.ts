@@ -21,7 +21,7 @@ interface Store {
   openMini: () => void; finishMini: (win: boolean) => void; closeMini: () => void;
   choose: (pick: "a" | "b") => void; answerQuiz: (correct: boolean) => void; closePending: () => void;
   go: (s: Screen) => void; setProfile: (p: Partial<Profile>) => void; setSettings: (s: Partial<Settings>) => void;
-  openLevel: (i: number, w?: Weather, src?: Source | null, replay?: string | null) => void; startLevel: () => void; adjust: (r: Res, d: 1 | -1) => void;
+  openLevel: (i: number, w?: Weather, src?: Source | null, replay?: string | null) => void; setWeather: (w: Weather) => void; startLevel: () => void; adjust: (r: Res, d: 1 | -1) => void;
   toggle: (k: keyof Acts) => void; closeReport: () => void; endDay: () => void; recover: () => void;
 }
 const KEY = "oa.v1"; // same key as before: old players keep their progress; every field is validated when loaded
@@ -42,8 +42,9 @@ export const useStore = create<Store>()((set, get) => ({
   go: screen => set(s => ({ screen, back: screen === "settings" ? s.screen : s.back, notice: null })),
   setProfile: p => set(s => ({ profile: { ...s.profile, ...p } })),
   setSettings: p => set(s => ({ settings: { ...s.settings, ...p } })),
-  openLevel: (i, w = "minor", src = null, replay = null) => set({ levelIdx: i, weather: w, weatherSrc: src, replay, screen: "intro" }),
-  startLevel: () => set(s => ({ game: newGame(LEVELS[s.levelIdx]), report: null, alloc: defaultAlloc(), acts: noActs, notice: null, screen: "game", pending: null, mini: null, miniDone: false })),
+  openLevel: (i, w, src = null, replay = null) => set({ levelIdx: i, weather: w ?? (LEVELS[i]?.world === "mars" ? "calm" : "minor"), weatherSrc: src, replay, screen: "intro" }),
+  setWeather: w => set({ weather: w }),
+  startLevel: () => set(s => ({ game: newGame(LEVELS[s.levelIdx], s.weather), report: null, alloc: defaultAlloc(), acts: noActs, notice: null, screen: "game", pending: null, mini: null, miniDone: false })),
   adjust: (r, d) => {
     const { game, levelIdx, alloc, acts } = get(); if (!game) return;
     if (d > 0 && blocksLeft(LEVELS[levelIdx], game, alloc, acts) <= 0) { set({ notice: "game.noBlocks" }); return; }
@@ -71,7 +72,7 @@ export const useStore = create<Store>()((set, get) => ({
     const level = LEVELS[levelIdx], next = playDay(level, game, { alloc, ...acts }, weather);
     sfx(next.hearts < game.hearts ? "bad" : "good", get().settings.sound);
     if (next.over) set({ game: next, progress: applyResult(progress, levelIdx, level.id, next, stars(next)), screen: "debrief" });
-    else set({ game: next, pending: decisionFor(level, levelIdx, next.day) ? { kind: "decision", d: decisionFor(level, levelIdx, next.day)! } : next.day > 2 ? { kind: "quiz", q: quizFor(level, levelIdx, next.day) } : null, report: { before: game, after: next }, alloc: defaultAlloc(), acts: noActs, notice: null, miniDone: false });
+    else set({ game: next, pending: decisionFor(level, levelIdx, next.day) ? { kind: "decision", d: decisionFor(level, levelIdx, next.day)! } : next.day > 2 ? { kind: "quiz", q: quizFor(levelIdx, next.day) } : null, report: { before: game, after: next }, alloc: defaultAlloc(), acts: noActs, notice: null, miniDone: false });
   },
 }));
 useStore.subscribe(s => {

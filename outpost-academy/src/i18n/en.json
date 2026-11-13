@@ -95,55 +95,35 @@
    "askKid": "Where does water matter most on a base?",
    "learn": "Water connects all the other systems, so a shortage spreads quickly."
   },
-  "mars_landing": {
-   "name": "Hello, Mars",
-   "intro": "You have landed on Mars! The sky changes every day, and the weather card tells you what is coming.",
-   "goal": "Keep the crew safe and learn to read the Mars weather.",
-   "tip": "Look at the weather card. Cold, dust and dust devils change how much energy you get.",
-   "fact": "A day on Mars, called a sol, lasts about 24 hours and 40 minutes.",
-   "factSource": "mars-facts",
-   "askKid": "How is the weather on Mars different from the weather at home?",
-   "learn": "On Mars the Sun is weaker and the weather changes the energy you get. Planning with the forecast is how real crews work."
-  },
-  "mars_cold": {
-   "name": "Frozen Sols",
-   "intro": "A series of very cold days is coming. Heaters will take part of your energy.",
-   "goal": "Keep the greenhouse alive while the cold lasts.",
-   "tip": "On cold days you get 1 block less and the plants grow slower. Give the greenhouse a block.",
-   "fact": "Mars is a cold desert world: about minus 60 degrees Celsius on average.",
-   "factSource": "mars-facts",
-   "askKid": "What would you do first when the temperature drops?",
-   "learn": "Heating costs energy, and energy is limited. Cold hits several systems at once."
-  },
-  "mars_dust": {
-   "name": "Dust Season",
-   "intro": "It is dust season. The sky is orange and the Sun is dim. A solar storm is also coming at the end.",
-   "goal": "Get through the dusty days and have a strong shield for the storm.",
-   "tip": "On dusty days only half of the sunlight arrives. A dust devil may clean the panels for free.",
-   "fact": "Wind and dust devils have cleaned the solar panels of real Mars rovers.",
+  "mars_arrival": {
+   "name": "Red Planet Arrival",
+   "intro": "Mars is far from the Sun, so sunlight is weaker than on Earth. Dust in the air makes it weaker still.",
+   "goal": "Keep the air running and the shield strong until the dust passes.",
+   "tip": "Check the Mars sky: dust means fewer energy blocks. Save energy in the battery.",
+   "fact": "Dust storms on Mars can grow so large that they cover the whole planet.",
    "factSource": "mars-dust",
-   "askKid": "Why is dust a problem for solar panels?",
-   "learn": "Mars dust dims the sunlight and sticks to machines. Mars also has thin air, so the shield matters even more."
+   "askKid": "Why does dust make a Mars base weaker?",
+   "learn": "Solar panels need sunlight. Dust blocks the light, so crews must save energy and sometimes clean the panels."
   },
-  "mars_global": {
-   "name": "Global Dust Storm",
-   "intro": "A dust storm grows until it covers the whole planet. For days almost no sunlight will reach the base.",
-   "goal": "Fill the battery before the storm and make it last.",
-   "tip": "Global storm days give almost no blocks. The battery holds up to 8, so charge it first.",
-   "fact": "In 2018 a planet-wide dust storm ended the mission of the Opportunity rover.",
+  "mars_dust_season": {
+   "name": "Dust Storm Season",
+   "intro": "Three dusty days are coming. The sky turns orange and the panels get almost no light.",
+   "goal": "Survive three dusty days without losing hearts.",
+   "tip": "Fill the battery before the dust arrives, then spend it slowly.",
+   "fact": "In 2018 a dust storm covered the whole of Mars. NASA's solar-powered Opportunity rover went silent.",
    "factSource": "mars-dust",
-   "askKid": "How many days of energy should we save before the storm?",
-   "learn": "When the Sun disappears, only stored energy counts. Good plans save energy before trouble arrives."
+   "askKid": "How can a crew prepare for days without sunlight?",
+   "learn": "Dust storms can last for weeks. Crews plan for them by storing power and cleaning the panels."
   },
-  "mars_commander": {
-   "name": "Mars Commander",
-   "intro": "This is your final mission. Cold, dust, a dust devil, a global storm and a solar storm are all coming.",
-   "goal": "Use everything you learned to bring all four crew members home safe.",
-   "tip": "Read the weather card every day. Save energy before bad weather and build the shield before the solar storm.",
-   "fact": "Radio messages between Earth and Mars take up to about 20 minutes each way.",
-   "factSource": "hrp-distance",
-   "askKid": "Which day will be the hardest, and how will you get ready?",
-   "learn": "Real Mars crews plan around weather, energy and distance from Earth. You just did the same."
+  "mars_red_garden": {
+   "name": "Red Garden",
+   "intro": "Mars has no strong magnetic shield, so radiation reaches the ground. The crew also needs food.",
+   "goal": "Grow food, keep the shield strong and keep every heart.",
+   "tip": "Plants need energy too. Do not forget the shield when a storm is coming.",
+   "fact": "MOXIE, a small machine on Perseverance, made oxygen from Martian air.",
+   "factSource": "moxie",
+   "askKid": "Why do Mars bases need a radiation shield?",
+   "learn": "Mars has no global magnetic field, so particles from the Sun reach the surface. A base needs shielding, and shielding costs energy."
   }
  },
  "chain": {
@@ -215,41 +195,13 @@
    "title": "You called Earth",
    "why": "Earth helped the weakest system, but the call used a block of energy."
   },
-  "mars_cold": {
-   "title": "A cold sol on Mars",
-   "why": "Heaters took some energy and the plants grew slower. Cold days are hard on a base."
+  "radio_sent": {
+   "title": "You called Earth (the answer is on its way)",
+   "why": "A message from Mars needs minutes to reach Earth, and the answer needs minutes to come back. So Earth's help arrives next sol, not now."
   },
-  "mars_dusty": {
-   "title": "Dust dimmed the Sun",
-   "why": "Dust in the Martian sky blocked half of the sunlight, so the panels made less energy."
-  },
-  "mars_global": {
-   "title": "A global dust storm",
-   "why": "Dust covered the whole planet. Almost no sunlight reached the panels, so the battery had to carry the base."
-  },
-  "mars_devil": {
-   "title": "A dust devil cleaned the panels",
-   "why": "A whirlwind swept the dust off the panels for free. Real Mars rovers were cleaned like this too."
-  },
-  "decision_ice": {
-   "title": "Mission Control decision: the ice",
-   "why": "You chose between more water and saving energy."
-  },
-  "decision_seeds": {
-   "title": "Mission Control decision: the seeds",
-   "why": "You chose between a faster garden and checking the air filters."
-  },
-  "decision_moon_soil": {
-   "title": "Mission Control decision: moon soil walls",
-   "why": "You chose between a stronger shield and saving energy."
-  },
-  "decision_mars_signal": {
-   "title": "Mission Control decision: the signal delay",
-   "why": "You chose between waiting for Earth and deciding on your own."
-  },
-  "decision_mars_rover": {
-   "title": "Mission Control decision: the rover trip",
-   "why": "You chose between new science and a safer base."
+  "radio_arrived": {
+   "title": "Earth's answer arrived",
+   "why": "Yesterday's call was answered: Earth helped your weakest system. Planning ahead matters when help is slow."
   }
  },
  "start": {
@@ -275,9 +227,12 @@
   "locked": "Finish the previous level to unlock",
   "level": "Level {{n}}",
   "hello": "Hello, {{name}}!",
-  "moonMissions": "Moon missions",
-  "marsMissions": "Mars missions",
-  "marsUnlock": "Mars missions open after you finish all Moon levels."
+  "world": {
+   "moon": "Moon",
+   "mars": "Mars"
+  },
+  "progress": "{{done}} of {{total}} missions complete",
+  "next": "Next mission"
  },
  "intro": {
   "goal": "Your goal",
@@ -367,7 +322,8 @@
   "leftLabel": "energy blocks left",
   "machines": "Base machines",
   "extra": "Extra actions",
-  "extraHint": "Each action costs energy blocks."
+  "extraHint": "Each action costs energy blocks.",
+  "radioMars": "Radio Earth: costs 1 block. On Mars the answer is delayed, so the help (+8 to your weakest system) comes next sol"
  },
  "debrief": {
   "success": "Mission complete!",
@@ -464,41 +420,6 @@
    "b": "Stay inside",
    "aWhy": "More energy tomorrow, but the walk used air.",
    "bWhy": "Fresher air inside, but less energy tomorrow."
-  },
-  "ice": {
-   "text": "Your drill found ice under the ground.",
-   "a": "Melt a lot of ice now",
-   "b": "Take a little, save energy",
-   "aWhy": "You get more water, but the melter uses a block tomorrow.",
-   "bWhy": "You save a block, but there is less water."
-  },
-  "seeds": {
-   "text": "The new seeds are ready to plant.",
-   "a": "Plant them now",
-   "b": "Wait until tomorrow",
-   "aWhy": "More food soon, but the crew had no time to check the air filters.",
-   "bWhy": "The air filters get checked, but the garden grows slower."
-  },
-  "moon_soil": {
-   "text": "There is a big pile of moon soil next to the base.",
-   "a": "Pile it on the walls",
-   "b": "Leave it, save energy",
-   "aWhy": "Moon soil blocks space particles, but the digger used a block.",
-   "bWhy": "You save a block, but the walls are less protected."
-  },
-  "mars_signal": {
-   "text": "You ask Earth for advice. A message takes up to about 20 minutes each way.",
-   "a": "Wait for Earth's answer",
-   "b": "Decide on your own now",
-   "aWhy": "You learn something new, but waiting cost a block.",
-   "bWhy": "A quick fix for the air, but the guess weakened the shield."
-  },
-  "mars_rover": {
-   "text": "The crew can drive the pressurized rover to a far rock.",
-   "a": "Go on the trip",
-   "b": "Stay at the base",
-   "aWhy": "New science, but the trip used air.",
-   "bWhy": "You save energy, but nobody checked the shield."
   }
  },
  "quiz": {
@@ -541,321 +462,6 @@
     "20 hours"
    ],
    "why": "Radio signals travel at light speed, but Mars is far away: up to about 20 minutes one way."
-  },
-  "moon_gravity": {
-   "q": "How strong is gravity on the Moon compared with Earth?",
-   "o": [
-    "About one sixth",
-    "The same",
-    "Twice as strong"
-   ],
-   "why": "Moon gravity is about one sixth of Earth's, so astronauts bounce when they walk."
-  },
-  "moon_night": {
-   "q": "How long does one night last on the Moon?",
-   "o": [
-    "About 12 hours",
-    "About 14 Earth days",
-    "About 1 Earth day"
-   ],
-   "why": "A Moon day and night together last about 29.5 Earth days, so the night is about two weeks long."
-  },
-  "moon_air": {
-   "q": "Why do astronauts wear spacesuits on the Moon?",
-   "o": [
-    "The Moon is too bright",
-    "The Moon has strong wind",
-    "The Moon has almost no air"
-   ],
-   "why": "The Moon has almost no atmosphere, so people cannot breathe there and need a suit with air."
-  },
-  "moon_ice": {
-   "q": "Where has NASA found water ice on the Moon?",
-   "o": [
-    "In dark craters near the poles",
-    "On the hot sunny equator",
-    "In the middle of the sea of dust"
-   ],
-   "why": "Some craters near the poles never get sunlight. It is so cold there that water ice can stay frozen."
-  },
-  "moon_artemis": {
-   "q": "What is the name of NASA's program to send people back to the Moon?",
-   "o": [
-    "Gemini",
-    "Artemis",
-    "Voyager"
-   ],
-   "why": "Artemis is NASA's program to return astronauts to the Moon and prepare for Mars."
-  },
-  "moon_walkers": {
-   "q": "How many people have walked on the Moon so far?",
-   "o": [
-    "6",
-    "24",
-    "12"
-   ],
-   "why": "Twelve astronauts walked on the Moon during the Apollo missions."
-  },
-  "moon_signal": {
-   "q": "How long does a radio message take to travel from Earth to the Moon?",
-   "o": [
-    "About 1 second",
-    "About 20 minutes",
-    "There is no delay at all"
-   ],
-   "why": "Radio travels at the speed of light. The Moon is close, so a message arrives in about one second."
-  },
-  "moon_sunset": {
-   "q": "What happens to the temperature when the Sun sets on the Moon?",
-   "o": [
-    "It gets hotter",
-    "It becomes extremely cold",
-    "Nothing changes"
-   ],
-   "why": "The Moon has almost no air to hold heat, so the surface cools down very fast after sunset."
-  },
-  "moon_craters": {
-   "q": "What made most of the craters on the Moon?",
-   "o": [
-    "Space rocks crashing into it",
-    "Rain and rivers",
-    "Ocean tides"
-   ],
-   "why": "With almost no air and no rain, craters stay for billions of years. Most were made by space rocks."
-  },
-  "moon_dust": {
-   "q": "Why is moon dust a problem for machines and suits?",
-   "o": [
-    "It is too light",
-    "It is too wet",
-    "It is sharp and sticks to everything"
-   ],
-   "why": "Moon dust is sharp and clingy. Apollo astronauts found that it wore out suits and got into joints."
-  },
-  "moon_solar": {
-   "q": "Why is the lunar night a problem for solar power?",
-   "o": [
-    "The panels melt",
-    "The Sun is hidden, so panels make no energy",
-    "Gravity pulls the panels down"
-   ],
-   "why": "Solar panels need sunlight. During the long night a base must live on stored energy."
-  },
-  "moon_shield": {
-   "q": "What can help protect a Moon base from space radiation?",
-   "o": [
-    "Covering it with moon soil or water",
-    "A thin cotton blanket",
-    "Painting it white"
-   ],
-   "why": "Thick layers of material, like moon soil or water, can absorb many space particles."
-  },
-  "mars_sol": {
-   "q": "How long is one day on Mars, called a sol?",
-   "o": [
-    "About 24 hours 40 minutes",
-    "About 12 hours",
-    "About 7 Earth days"
-   ],
-   "why": "A sol is about 24 hours and 40 minutes, only a little longer than an Earth day."
-  },
-  "mars_red": {
-   "q": "Why does Mars look red?",
-   "o": [
-    "It has red oceans",
-    "Its dust contains rusty iron",
-    "It is very close to the Sun"
-   ],
-   "why": "Mars dust has a lot of iron that has rusted. That is why the planet looks red-orange."
-  },
-  "mars_airgas": {
-   "q": "What gas is most of the air on Mars made of?",
-   "o": [
-    "Oxygen",
-    "Nitrogen",
-    "Carbon dioxide"
-   ],
-   "why": "Martian air is mostly carbon dioxide, so people cannot breathe it."
-  },
-  "mars_thin": {
-   "q": "Compared with Earth, the air on Mars is...",
-   "o": [
-    "Much thinner",
-    "About the same",
-    "Much thicker"
-   ],
-   "why": "The air on Mars is very thin. It holds little heat and gives little protection from space."
-  },
-  "mars_chill": {
-   "q": "Is Mars warmer or colder than Earth?",
-   "o": [
-    "Much warmer",
-    "Much colder",
-    "The same"
-   ],
-   "why": "Mars is a cold desert. The average temperature is about minus 60 degrees Celsius."
-  },
-  "mars_gravity": {
-   "q": "How strong is gravity on Mars compared with Earth?",
-   "o": [
-    "The same",
-    "Twice as strong",
-    "Less than half as strong"
-   ],
-   "why": "Gravity on Mars is about 38 percent of Earth's. You would weigh much less there."
-  },
-  "mars_year": {
-   "q": "How long is one year on Mars?",
-   "o": [
-    "About 687 Earth days",
-    "About 365 Earth days",
-    "About 30 Earth days"
-   ],
-   "why": "Mars is farther from the Sun, so it needs about 687 Earth days to go around it once."
-  },
-  "mars_devilq": {
-   "q": "What can clean dust off a rover's solar panels on Mars?",
-   "o": [
-    "Rain",
-    "A gust of wind, like a dust devil",
-    "Ocean waves"
-   ],
-   "why": "Mars has no rain, but wind gusts and dust devils have blown dust off the panels of real rovers."
-  },
-  "mars_opportunity": {
-   "q": "Why did the Opportunity rover go quiet in 2018?",
-   "o": [
-    "A planet-wide dust storm hid the Sun",
-    "It fell into a river",
-    "It ran out of rocket fuel"
-   ],
-   "why": "A huge dust storm blocked the sunlight, so the rover's solar panels could not recharge its batteries."
-  },
-  "mars_helicopter": {
-   "q": "Ingenuity was the first helicopter to fly on which world besides Earth?",
-   "o": [
-    "The Moon",
-    "Venus",
-    "Mars"
-   ],
-   "why": "Ingenuity flew on Mars in 2021. The air there is so thin that its blades had to spin very fast."
-  },
-  "mars_moons": {
-   "q": "How many moons does Mars have?",
-   "o": [
-    "None",
-    "Two",
-    "Twelve"
-   ],
-   "why": "Mars has two small moons, Phobos and Deimos."
-  },
-  "mars_water": {
-   "q": "Where is most of the water on Mars today?",
-   "o": [
-    "Frozen as ice, at the poles and underground",
-    "In big blue oceans",
-    "In rivers and lakes"
-   ],
-   "why": "Today Mars water is mostly ice. That ice is a possible source of water for future crews."
-  },
-  "mars_trip": {
-   "q": "About how long does a trip from Earth to Mars take with today's rockets?",
-   "o": [
-    "About 3 days",
-    "About 5 years",
-    "About 7 months"
-   ],
-   "why": "With today's rockets the trip takes about six to nine months, depending on when you leave."
-  },
-  "mars_radiation": {
-   "q": "Why is radiation a risk for people on the surface of Mars?",
-   "o": [
-    "Mars is too close to the Sun",
-    "Thin air and no global magnetic field give little protection",
-    "The air is too thick"
-   ],
-   "why": "Earth's magnetic field and thick air protect us. Mars has much less of both, so a base needs a shield."
-  },
-  "mars_volcano": {
-   "q": "What is the giant volcano on Mars called?",
-   "o": [
-    "Olympus Mons",
-    "Mount Everest",
-    "Vesuvius"
-   ],
-   "why": "Olympus Mons is the tallest known volcano in our solar system."
-  },
-  "iss_orbit": {
-   "q": "How often does the space station fly around the Earth?",
-   "o": [
-    "Once a day",
-    "Once a month",
-    "About every 90 minutes"
-   ],
-   "why": "The station goes very fast, so its crew sees about 16 sunrises every day."
-  },
-  "iss_float": {
-   "q": "Why do astronauts float inside the space station?",
-   "o": [
-    "There is no gravity up there",
-    "They are in constant free fall around Earth",
-    "The station spins very fast"
-   ],
-   "why": "Gravity is still strong there. The station and the crew are falling around Earth together, so they feel weightless."
-  },
-  "iss_water": {
-   "q": "What do astronauts on the space station do with used water?",
-   "o": [
-    "Throw it into space",
-    "Clean it and use it again",
-    "Pour it on the plants only"
-   ],
-   "why": "The station recycles most of its water, even from sweat and breath, because bringing water from Earth is very expensive."
-  },
-  "iss_lettuce": {
-   "q": "What did astronauts grow and eat on the space station?",
-   "o": [
-    "Bananas",
-    "Potatoes from Mars",
-    "Red romaine lettuce"
-   ],
-   "why": "Astronauts grew red romaine lettuce in the Veggie garden and ate it fresh."
-  },
-  "sun_light": {
-   "q": "How long does sunlight take to reach Earth?",
-   "o": [
-    "About 8 seconds",
-    "About 8 minutes",
-    "About 8 hours"
-   ],
-   "why": "Light from the Sun travels about 8 minutes and 20 seconds to reach us."
-  },
-  "sun_cme": {
-   "q": "What is a coronal mass ejection?",
-   "o": [
-    "A huge cloud of particles thrown out by the Sun",
-    "A small moon",
-    "A type of rocket engine"
-   ],
-   "why": "It is a giant cloud of charged particles that the Sun throws into space. NASA watches for them every day."
-  },
-  "sun_aurora": {
-   "q": "What makes the colorful auroras near Earth's poles?",
-   "o": [
-    "City lights",
-    "Moon dust",
-    "Particles from the Sun hitting the air"
-   ],
-   "why": "Particles from the Sun hit gases high in our air and make them glow."
-  },
-  "plants_base": {
-   "q": "Why are plants useful on a space base?",
-   "o": [
-    "They create gravity",
-    "They can give food and fresh oxygen",
-    "They block radio signals"
-   ],
-   "why": "Plants can make food and oxygen. That is why NASA tests gardens in space."
   }
  },
  "grownup": {
@@ -908,9 +514,11 @@
   "moxie": "A small machine on Mars called MOXIE made oxygen from the Martian air.",
   "delay": "A radio message from Mars to Earth can take up to about 20 minutes.",
   "sol": "One day on Mars, called a sol, lasts about 24 hours and 40 minutes.",
-  "marsair": "Mars has very thin air, made mostly of carbon dioxide, so people cannot breathe it.",
-  "dustdevil": "Swirling dust devils on Mars have blown the dust off the solar panels of rovers.",
-  "marsyear": "A year on Mars lasts about 687 Earth days, almost twice as long as ours."
+  "marsdust": "Dust storms on Mars can grow so large that they cover the whole planet.",
+  "bones": "In space, astronauts' bones and muscles can get weaker, so they exercise every day. NASA keeps this science in a free open library called OSDR.",
+  "radlab": "Instruments on the International Space Station measure radiation all the time. NASA shares these real measurements in a public database called RadLab.",
+  "trek": "NASA Mars Trek is a free website with real maps and heights of Mars, made from NASA missions. Anyone can use it to look for a place to land.",
+  "csafood": "Growing food on the Moon could feed astronauts, and the same ideas can help people who live far away from shops on Earth."
  },
  "badges": {
   "title": "Your stickers",
@@ -944,15 +552,11 @@
   },
   "commander": {
    "name": "Base commander",
-   "desc": "Finish every level"
+   "desc": "Finish all Moon levels"
   },
   "mars_pioneer": {
-   "name": "Mars Pioneer",
-   "desc": "Finish Hello, Mars"
-  },
-  "dust_rider": {
-   "name": "Dust Rider",
-   "desc": "Finish the Global Dust Storm"
+   "name": "Mars pioneer",
+   "desc": "Finish any Mars level"
   }
  },
  "cert": {
@@ -980,40 +584,31 @@
   "reload": "Reload the page",
   "details": "Technical details"
  },
- "sky": {
-  "title": "Mars weather",
-  "today": "Today",
-  "tomorrow": "Tomorrow",
-  "avg": "Mars is a cold desert: about minus 60 degrees Celsius on average, and its air is very thin.",
-  "clear": {
+ "marsWeather": {
+  "title": "Weather on Mars",
+  "text": "Pick the sky for your Mars mission. Dust changes how much sunlight your solar panels get.",
+  "note": "These are scenarios built from real Martian weather, not a live feed.",
+  "chip": "Mars sky: {{w}}",
+  "play": "Play Mars with this sky",
+  "calm": {
    "name": "Clear sky",
-   "effect": "Full sunlight. A good day to work."
+   "desc": "Normal sunlight for the panels."
   },
-  "cold": {
-   "name": "Cold snap",
-   "effect": "Heaters take 1 energy block and the plants grow slower."
+  "minor": {
+   "name": "Dust haze",
+   "desc": "Dust in the air: 1 energy block less every sol."
   },
-  "dusty": {
-   "name": "Dusty sky",
-   "effect": "Dust in the air: only half of the sunlight reaches the panels."
-  },
-  "devil": {
-   "name": "Dust devil",
-   "effect": "A whirlwind cleans the panels: +2 energy blocks tomorrow."
-  },
-  "global": {
+  "strong": {
    "name": "Global dust storm",
-   "effect": "The whole planet is covered in dust: almost no sunlight."
-  },
-  "prepare": {
-   "cold": "Cold tomorrow: the heaters need a block and the plants grow slower.",
-   "dusty": "Dust tomorrow: keep some energy in the battery.",
-   "global": "A global dust storm is coming! Fill the battery now.",
-   "devil": "A dust devil tomorrow may clean the panels for free."
+   "desc": "Like the planet-wide storm of 2018: 2 energy blocks less every sol."
   }
  },
- "world": {
-  "moon": "Moon",
-  "mars": "Mars"
+ "apod": {
+  "title": "NASA picture of the day",
+  "credit": "Credit: {{c}}",
+  "creditNasa": "Credit: NASA",
+  "live": "Live from NASA",
+  "archive": "Last saved picture, not live",
+  "open": "See it on the NASA site"
  }
 }
