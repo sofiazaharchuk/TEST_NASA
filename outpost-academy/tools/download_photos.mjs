@@ -6,6 +6,8 @@ import { mkdirSync, writeFileSync, existsSync, readFileSync, unlinkSync } from "
 import { getRetry } from "./_net.mjs";
 const API = "https://images-api.nasa.gov";
 const FORCE = process.argv.includes("--force");
+const REDO = ["mars_garden"]; // themes whose earlier photo was a bad fit: always fetched again once
+const BAD = /crowd|visitors|audience|briefing|press|ceremony|employees|reception|meeting|workshop|team photo/i; // people-in-a-room photos never fit a scene
 // theme -> list of search queries (tried in order until a photo nobody else uses is found)
 const THEMES = {
   // levels
@@ -16,7 +18,7 @@ const THEMES = {
   iss_water: ["astronaut water bubble International Space Station", "water droplet floating space station"],
   mars: ["Perseverance Mars rover selfie", "Perseverance rover Jezero crater"],
   mars_dust: ["Mars dust storm", "Mars global dust storm Hubble"],
-  mars_garden: ["Mars Dune Alpha CHAPEA habitat", "Mars habitat greenhouse concept", "Mars outpost concept NASA"],
+  mars_garden: ["Perseverance rover Mars panorama Jezero", "Curiosity rover Mars landscape panorama", "Mars surface rocks Perseverance"],
   // in-game scenes
   solar_storm: ["coronal mass ejection SOHO", "coronal mass ejection Sun eruption"],
   moon_night: ["Moon surface Apollo lunar night", "lunar surface astronaut footprint"],
@@ -47,7 +49,7 @@ const out = {}, usedIds = new Set(), usedTitles = new Set();
 const norm = s => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 // 1) keep earlier photos that are fine: file exists and nobody else uses the same picture. Duplicates are dropped and fetched again.
 for (const [theme, e] of Object.entries(prev)) {
-  if (FORCE || !THEMES[theme]) continue;
+  if (FORCE || !THEMES[theme] || REDO.includes(theme)) continue;
   const ok = e?.file && existsSync(`public/photos/${e.file}`) && !usedIds.has(e.nasa_id) && !usedTitles.has(norm(e.title));
   if (!ok) { console.log("redo", theme, e?.file ? "(duplicate or missing file)" : ""); continue; }
   out[theme] = e; usedIds.add(e.nasa_id); usedTitles.add(norm(e.title));
@@ -59,7 +61,7 @@ for (const [theme, queries] of Object.entries(THEMES)) {
     search: for (const q of queries) {
       const s = await (await getRetry(`${API}/search?q=${encodeURIComponent(q)}&media_type=image`)).json();
       for (const it of (s.collection?.items ?? []).slice(0, 25)) {
-        const d = it.data?.[0]; if (!d?.nasa_id || usedIds.has(d.nasa_id) || usedTitles.has(norm(d.title))) continue;
+        const d = it.data?.[0]; if (!d?.nasa_id || usedIds.has(d.nasa_id) || usedTitles.has(norm(d.title)) || BAD.test(d.title)) continue;
         const a = await (await getRetry(`${API}/asset/${encodeURIComponent(d.nasa_id)}`)).json();
         const urls = (a.collection?.items ?? []).map(x => x.href).filter(h => /\.(jpe?g|png)$/i.test(h));
         const pick = urls.find(h => h.includes("~medium")) || urls.find(h => h.includes("~large")) || urls.find(h => h.includes("~small")) || urls[0];

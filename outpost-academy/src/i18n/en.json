@@ -359,7 +359,8 @@
    "minor": "normal",
    "strong": "strong"
   },
-  "famous": "NASA does not answer right now, so here is a real flare from NASA records: {{c}}, {{d}}. The game uses a storm like it."
+  "famous": "NASA does not answer right now, so here is a real flare from NASA records: {{c}}, {{d}}. The game uses a storm like it.",
+  "unlockAt": "Available from level {{n}}. Finish the earlier levels first."
  },
  "tasks": {
   "title": "Mission tasks",

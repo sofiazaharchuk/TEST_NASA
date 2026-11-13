@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Sun, WifiOff, Wifi, Archive } from "lucide-react";
+import { Sun, WifiOff, Wifi, Archive, Lock } from "lucide-react";
 import { loadFlares, strongest, weatherOf, type Result } from "../nasa/donki.ts";
 import { LEVELS } from "../data/levels.ts";
 import archive from "../data/donkiArchive.json";
@@ -16,7 +16,8 @@ export default function SpaceWeather() {
   useEffect(() => { let on = true; loadFlares({ archive, fallback: builtin, timeoutMs: 12000, key: import.meta.env.VITE_NASA_API_KEY, storage: (() => { try { return localStorage; } catch { return undefined; } })() }).then(x => on && setR(x)); return () => { on = false; }; }, []);
   const known = !!r?.builtin, top = r ? (known ? r.flares[Math.floor(Date.now() / 864e5) % Math.max(1, r.flares.length)] ?? null : strongest(r.flares)) : null, w = weatherOf(top);
   // Storm levels that are open for this player: today's weather decides how strong the storm is.
-  const stormLevels = LEVELS.flatMap((l, i) => l.world === "moon" && l.events.some(e => e.type === "storm") && (settings.demo || i <= progress.unlocked) ? [{ l, i }] : []);
+  // All storm levels are listed; a level that is still locked shows a disabled button with a clear note.
+  const stormLevels = LEVELS.flatMap((l, i) => l.world === "moon" && l.events.some(e => e.type === "storm") ? [{ l, i, open: settings.demo || i <= progress.unlocked }] : []);
   const Badge = r?.source === "live" ? Wifi : r?.source === "archive" ? Archive : WifiOff;
   return (
     <section className={`${glass} mt-6 p-5`} aria-labelledby="sw-h">
@@ -35,9 +36,11 @@ export default function SpaceWeather() {
           <div className="pt-2">
             <p className="font-semibold">{t("spaceWeather.play")}</p>
             <div className="mt-2 flex flex-wrap gap-2">
-              {stormLevels.length === 0 && <p className="text-sm text-slate-300">{t("levelsScreen.locked")}</p>}
-              {stormLevels.map(({ l, i }) => <button key={l.id} className={btnGhost} onClick={() => openLevel(i, w, r.source === "none" ? null : r.source)}>{t("levelsScreen.level", { n: i + 1 })}: {t(`levels.${l.id}.name`)}</button>)}
+              {stormLevels.map(({ l, i, open }) => open
+                ? <button key={l.id} className={btnGhost} onClick={() => openLevel(i, w, r.source === "none" ? null : r.source)}>{t("levelsScreen.level", { n: i + 1 })}: {t(`levels.${l.id}.name`)}</button>
+                : <button key={l.id} disabled aria-disabled className={`${btnGhost} cursor-not-allowed opacity-50 hover:translate-y-0 hover:bg-white/5`}><Lock aria-hidden className="h-4 w-4" />{t("levelsScreen.level", { n: i + 1 })}: {t(`levels.${l.id}.name`)}</button>)}
             </div>
+            {stormLevels.some(x => !x.open) && <p className="mt-2 text-sm text-slate-300">{t("spaceWeather.unlockAt", { n: stormLevels[0].i + 1 })}</p>}
           </div>
         </div>
       )}

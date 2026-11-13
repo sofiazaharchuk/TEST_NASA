@@ -180,5 +180,12 @@
     "credit": "Credit: NASA ESA CSA STScI / STScI (Webb)",
     "nasa_id": "carina_nebula",
     "link": "https://images.nasa.gov/details/carina_nebula"
+  },
+  "mars_garden": {
+    "file": "mars_garden.jpg",
+    "title": "Jezero Crater's Delta Is Getting Closer",
+    "credit": "Credit: NASA/JPL-Caltech/ASU/MSSS / JPL",
+    "nasa_id": "PIA25212",
+    "link": "https://images.nasa.gov/details/PIA25212"
   }
 }
