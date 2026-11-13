@@ -38,7 +38,7 @@ export default function Start() {
   );
 }
 
-const SLIDES = ["moon", "earth", "solar", "mars", "veggie", "iss_water"];
+const SLIDES = ["s_apollo", "s_earth", "s_sun", "s_mars", "s_iss", "s_nebula"];
 /** Cross-fading NASA photos behind the title. */
 function Slideshow() {
   const [i, setI] = useState(0);

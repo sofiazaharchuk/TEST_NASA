@@ -37,7 +37,7 @@ export default function Game() {
   const value = (r: Res) => (r === "shield" ? shield : g.stock[r]);
   const night = l.income[g.day - 1] === 0, base = LEVEL_THEME[l.id];
   // The big picture follows what is happening: storm -> the Sun, lunar night -> Earth in the dark sky.
-  const heroTheme = fc?.type === "storm" ? "solar" : l.world === "mars" && (fc?.type === "dust" || weather === "strong") ? "mars_dust" : night ? (base === "earth" ? "moon" : "earth") : base;
+  const heroTheme = fc?.type === "storm" ? "solar_storm" : l.world === "mars" && (fc?.type === "dust" || weather === "strong") ? "mars_dust" : night ? (base === "moon_night" ? "earth" : "moon_night") : base;
   const vitals = l.res.filter(r => r !== "power");
   const step = showCoach && nextIdx >= 0 ? coach[nextIdx].text : notice ? t(notice) : hint;
   return (

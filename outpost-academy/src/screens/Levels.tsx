@@ -11,6 +11,7 @@ import { weatherOf } from "../nasa/donki.ts";
 import { Stars, btnGhost, glass } from "../ui/bits.tsx";
 import { Photo } from "../ui/Photo.tsx";
 import SpaceWeather from "./SpaceWeather.tsx";
+import { OsdrCard } from "../ui/OsdrCard.tsx";
 import { PhotoOfDay } from "../ui/PhotoOfDay.tsx";
 
 const EMOJI: Record<string, string> = { first_flight: "🚀", night_owl: "🌙", storm_survivor: "⚡", gardener: "🌱", water_keeper: "💧", zero_waste: "♻️", scientist: "🔬", commander: "👨‍🚀", mars_pioneer: "🔴" };
@@ -50,6 +51,7 @@ export default function Levels() {
       </ul>
       <SpaceWeather />
       <PhotoOfDay />
+      <OsdrCard />
       <Badges />
       {(settings.demo || progress.unlocked >= 2) && <><ReplayStorms /><MarsWeather /></>}
     </div>

@@ -610,5 +610,12 @@
   "live": "Live from NASA",
   "archive": "Last saved picture, not live",
   "open": "See it on the NASA site"
+ },
+ "osdr": {
+  "title": "Real astronaut-health science",
+  "count": "NASA's open science archive (OSDR) lists {{n}} studies about bones in space.",
+  "why": "Bones lose strength in space, so astronauts exercise every day. Scientists around the world use these studies to plan longer trips to the Moon and Mars.",
+  "live": "Live from NASA",
+  "archive": "Last saved answer, not live"
  }
 }

@@ -89,5 +89,96 @@
     "credit": "Credit: NASA/JPL-Caltech/MSSS / JPL",
     "nasa_id": "PIA22519",
     "link": "https://images.nasa.gov/details/PIA22519"
+  },
+  "solar_storm": {
+    "file": "solar_storm.jpg",
+    "title": "CME Blow Out",
+    "credit": "Credit: NASA / GSFC",
+    "nasa_id": "cme-blow-out_18529951894_o",
+    "link": "https://images.nasa.gov/details/cme-blow-out_18529951894_o"
+  },
+  "moon_night": {
+    "file": "moon_night.jpg",
+    "title": "Saturn Apollo Program",
+    "credit": "Credit: NASA / MSFC",
+    "nasa_id": "6900593",
+    "link": "https://images.nasa.gov/details/6900593"
+  },
+  "iss_exercise": {
+    "file": "iss_exercise.jpg",
+    "title": "Kuipers exercises on the ARED in the Node 3",
+    "credit": "Credit: Andre Kuipers / JSC",
+    "nasa_id": "iss030e148403",
+    "link": "https://images.nasa.gov/details/iss030e148403"
+  },
+  "food_space": {
+    "file": "food_space.jpg",
+    "title": "Expedition 43 crew in Node 1 for meal time",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "iss043e086137",
+    "link": "https://images.nasa.gov/details/iss043e086137"
+  },
+  "mars_orbit": {
+    "file": "mars_orbit.jpg",
+    "title": "Dark, Recurring Streaks on Walls of Garni Crater",
+    "credit": "Credit: NASA/JPL-Caltech/Univ. of Arizona / JPL",
+    "nasa_id": "PIA19917",
+    "link": "https://images.nasa.gov/details/PIA19917"
+  },
+  "mars_storm": {
+    "file": "mars_storm.jpg",
+    "title": "Last Images Opportunity Took",
+    "credit": "Credit: NASA/JPL-Caltech/Cornell/ASU / JPL",
+    "nasa_id": "PIA22930",
+    "link": "https://images.nasa.gov/details/PIA22930"
+  },
+  "mars_sunset": {
+    "file": "mars_sunset.jpg",
+    "title": "Phobos Passing Overhead",
+    "credit": "Credit: NASA/JPL-Caltech / JPL",
+    "nasa_id": "PIA17270",
+    "link": "https://images.nasa.gov/details/PIA17270"
+  },
+  "s_apollo": {
+    "file": "s_apollo.jpg",
+    "title": "A Mars Buggy and a Moon Buggy",
+    "credit": "Credit: NASA/JPL-Caltech / JPL",
+    "nasa_id": "PIA23041",
+    "link": "https://images.nasa.gov/details/PIA23041"
+  },
+  "s_earth": {
+    "file": "s_earth.jpg",
+    "title": "Powerful Auroras Found at Brown Dwarf",
+    "credit": "Credit: NASA / GSFC",
+    "nasa_id": "GSFC_20171208_Archive_e000673",
+    "link": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000673"
+  },
+  "s_sun": {
+    "file": "s_sun.jpg",
+    "title": "2017 Total Solar Eclipse",
+    "credit": "Credit: NASA/Carla Thomas / AFRC",
+    "nasa_id": "AFRC2017-0233-009",
+    "link": "https://images.nasa.gov/details/AFRC2017-0233-009"
+  },
+  "s_mars": {
+    "file": "s_mars.jpg",
+    "title": "Looking Up at Mars Rover Curiosity in Buckskin Selfie",
+    "credit": "Credit: NASA/JPL-Caltech/MSSS / JPL",
+    "nasa_id": "PIA19808",
+    "link": "https://images.nasa.gov/details/PIA19808"
+  },
+  "s_iss": {
+    "file": "s_iss.jpg",
+    "title": "Earth Observation",
+    "credit": "Credit: NASA / JSC",
+    "nasa_id": "iss040e080833",
+    "link": "https://images.nasa.gov/details/iss040e080833"
+  },
+  "s_nebula": {
+    "file": "s_nebula.jpg",
+    "title": "James Webb Space Telescope NIRCam Image of the “Cosmic Cliffs” in Carina Nebula",
+    "credit": "Credit: NASA ESA CSA STScI / STScI (Webb)",
+    "nasa_id": "carina_nebula",
+    "link": "https://images.nasa.gov/details/carina_nebula"
   }
 }

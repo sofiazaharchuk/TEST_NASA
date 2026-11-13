@@ -17,6 +17,7 @@ Outpost Academy is a free browser game for kids aged 7-12. Each day the player s
 - Space weather card: the class of the strongest recent flare (X strong, M medium, otherwise calm) sets how hard the storm is. The player can start any open storm level with today's weather, or replay famous real storms (2003, 2017, 2024).
 - Communication delay: on Mars a call to Earth is answered only on the next sol (messages need minutes each way); on the Moon the answer is immediate.
 - Mars: the player picks the sky (clear, dust haze, global dust storm like 2018); dust cuts the energy every sol. These are scenarios based on real events, not a live feed, and the game says so.
+- Real astronaut-health science: the OSDR card ties the bone-loss trade-off in the game to published NASA research.
 - Honest by design: every data card says whether it is live or from saved NASA records; every fact has a source link; the numbers are a teaching model, not engineering.
 - For learning: bonus science questions, mini-games, stickers, a certificate, a "play together" mode with prompts for grown-ups.
 - Accessible: works on phones, 10 languages (English and Ukrainian complete), light and dark theme, big text, easy-read font, less motion, read aloud, keyboard friendly.
@@ -27,7 +28,8 @@ Outpost Academy is a free browser game for kids aged 7-12. Each day the player s
 - NASA APOD via api.nasa.gov: picture of the day on the levels screen (live; only NASA-owned images are shown). https://apod.nasa.gov/apod/astropix.html
 - NASA Image and Video Library: photos for every level, shown with their credits. https://images.nasa.gov/
 - NASA Life Support Baseline Values and Assumptions (BVAD): ratios between air, water and food needs. https://ntrs.nasa.gov/
-- NASA OSDR (bones and muscles in space), RadLab (radiation measured on the ISS), Mars Trek (real Mars maps): fact cards with source links. https://osdr.nasa.gov/bio/repo/ , https://visualization.osdr.nasa.gov/radlab/ , https://trek.nasa.gov/mars/
+- NASA OSDR search API: a card on the levels screen shows how many real NASA studies exist about bones in space, with links to the first three (live; the card is hidden if NASA does not answer, saved answer labelled not live). https://osdr.nasa.gov/bio/repo/
+- RadLab (radiation measured on the ISS) and Mars Trek (real Mars maps): fact cards with source links. https://osdr.nasa.gov/bio/repo/ , https://visualization.osdr.nasa.gov/radlab/ , https://trek.nasa.gov/mars/
 - NASA Perseverance MOXIE, NASA HRP distance hazard (message delay), NASA/JPL 2018 Mars dust storm, ISS ECLSS, Veggie: facts and Mars scenarios.
 
 **Space agency partner and other data / tools:**
